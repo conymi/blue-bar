@@ -1,0 +1,149 @@
+---
+// 물까치 홈 히어로: 중앙 일러스트 주위로 키워드 밴드가 회전
+// 밴드 단어는 아래 한 줄만 수정하면 됨. 마지막 "· " 포함 유지(이음새용).
+const words = "로컬 브랜딩 · 콘텐츠 · 기획 · 고유성 · 이야기 · ";
+---
+
+<section class="mk-hero">
+  <div class="mk-stage" id="mk-stage" data-words={words}>
+    <svg
+      class="mk-bird"
+      viewBox="40 30 300 300"
+      role="img"
+      aria-label="물까치 일러스트"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M182 170 C168 128 136 84 88 54 C74 46 60 52 68 64 C102 106 136 144 158 178 C166 184 178 180 182 170 Z" fill="#9EC2EC"/>
+      <path d="M84 60 C116 92 142 128 160 162" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M100 74 C128 104 150 136 164 166" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M118 92 C142 118 158 144 168 168" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M236 208 C274 176 302 128 318 72 C322 58 336 60 332 76 C320 142 288 202 250 238 C240 246 230 224 236 208 Z" fill="#8FB8E8"/>
+      <path d="M246 224 C284 188 308 138 322 82" fill="none" stroke="#4478B8" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M98 190 C100 166 120 150 146 152 C182 156 214 176 240 204 C256 222 252 250 226 262 C194 276 150 268 124 242 C106 224 96 206 98 190 Z" fill="#E2D8C6"/>
+      <path d="M172 176 C208 182 236 200 250 224 C254 236 244 244 232 240 C210 232 186 210 170 188 C166 182 168 176 172 176 Z" fill="#6E9FD9"/>
+      <path d="M180 184 C210 192 232 208 244 228" fill="none" stroke="#4478B8" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M98 194 C112 188 134 184 158 180 C150 194 128 202 108 204 C102 202 98 198 98 194 Z" fill="#F5F0E3"/>
+      <path d="M96 190 C98 168 118 151 144 152 C160 153 172 159 181 169 C168 176 148 180 128 186 C116 189 104 191 96 190 Z" fill="#1F1F1D"/>
+      <path d="M97 184 L60 194 L98 201 C95 196 95 189 97 184 Z" fill="#262624"/>
+      <circle cx="136" cy="168" r="4.5" fill="#0C0C0B" stroke="#7A7A70" stroke-width="0.75"/>
+      <circle cx="137.5" cy="166.5" r="1.2" fill="#EFEAD9"/>
+      <path d="M206 264 L200 306" stroke="#2A2A27" stroke-width="4" stroke-linecap="round"/>
+      <path d="M226 262 L228 306" stroke="#2A2A27" stroke-width="4" stroke-linecap="round"/>
+      <path d="M200 306 L188 310 M200 306 L206 312 M228 306 L218 311 M236 311 L228 306" stroke="#2A2A27" stroke-width="3" stroke-linecap="round"/>
+      <path d="M150 312 L285 312" stroke="#CFC5AE" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="mk-mark">
+    <span class="mk-pill">mulkkachi</span>
+    <span class="mk-pill mk-pill-sub">local branding studio</span>
+  </div>
+</section>
+
+<style>
+  .mk-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 72vh;
+    padding: 2rem 0 3rem;
+    overflow: hidden;
+  }
+  .mk-stage {
+    position: relative;
+    width: min(92vw, 720px);
+    height: clamp(320px, 55vh, 460px);
+  }
+  .mk-bird {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -52%);
+    height: clamp(200px, 38vh, 300px);
+    z-index: 5;
+  }
+  .mk-word {
+    position: absolute;
+    font-family: "Galmuri11", "Galmuri9", monospace;
+    color: #3350e8;
+    font-weight: 400;
+    white-space: pre;
+    will-change: transform;
+    user-select: none;
+    pointer-events: none;
+  }
+  .mk-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .mk-pill {
+    background: #1a1a18;
+    color: #f5f2ea;
+    font-family: "Galmuri11", monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    padding: 5px 14px;
+  }
+  .mk-pill-sub {
+    font-size: 0.7rem;
+    padding: 4px 12px;
+  }
+</style>
+
+<script>
+  const stage = document.getElementById("mk-stage");
+  if (stage) {
+    const chars = (stage.dataset.words || "").split("");
+    const N = chars.length;
+    const spans = chars.map((ch) => {
+      const s = document.createElement("span");
+      s.className = "mk-word";
+      s.textContent = ch;
+      stage.appendChild(s);
+      return s;
+    });
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let t = 0;
+    let last = null;
+
+    function layout(now) {
+      const w = stage.clientWidth;
+      const h = stage.clientHeight;
+      const cx = w / 2;
+      const bandY = h * 0.56;
+      const RX = Math.min(w / 2 - 12, 340);
+      for (let i = 0; i < N; i++) {
+        const a = t + (i / N) * Math.PI * 2;
+        const sin = Math.sin(a);
+        const cos = Math.cos(a);
+        const k = (cos + 1) / 2;
+        const s = spans[i];
+        s.style.fontSize = (14 + 12 * k).toFixed(1) + "px";
+        s.style.opacity = (0.28 + 0.72 * k).toFixed(2);
+        s.style.zIndex = cos > 0 ? 9 : 1;
+        s.style.transform =
+          "translate(-50%,-50%)" + (cos < 0 ? " scaleX(-1)" : "");
+        s.style.left = (cx + RX * sin).toFixed(1) + "px";
+        s.style.top = (bandY + 18 * cos).toFixed(1) + "px";
+      }
+    }
+
+    if (reduced) {
+      layout();
+    } else {
+      const frame = (ts) => {
+        if (last === null) last = ts;
+        t += (ts - last) * 0.00042;
+        last = ts;
+        layout();
+        requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+    }
+  }
+</script>
