@@ -1,46 +1,47 @@
 ---
-// 물까치 홈 히어로: 중앙 일러스트 주위를 키워드 밴드가 3D 원통으로 회전
-// 밴드 단어는 아래 배열만 수정하면 됨.
-const words = ["로컬 브랜딩", "콘텐츠", "기획", "고유성", "이야기"];
-const items = words.flatMap((w) => [w, "·"]);
-const step = 360 / items.length;
+// 물까치 홈 히어로: 중앙 일러스트 + 원형 궤도를 도는 키워드 링 (바우하우스식 원형 구성)
+// 밴드 단어는 아래 한 줄만 수정. 마지막 "· " 포함 유지(이음새용).
+const phrase = "로컬 브랜딩 · 콘텐츠 · 기획 · 고유성 · 이야기 · ";
+const ringText = phrase.repeat(2);
 ---
 
 <section class="mk-hero">
-  <div class="mk-scene">
-    <div class="mk-tilt">
-      <div class="mk-ring">
-        {items.map((w, i) => (
-          <span class="mk-word" style={`--a:${(i * step).toFixed(1)}deg`}>{w}</span>
-        ))}
-      </div>
-      <svg
-      class="mk-bird"
-      viewBox="40 30 300 300"
-      role="img"
-      aria-label="물까치 일러스트"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M182 170 C168 128 136 84 88 54 C74 46 60 52 68 64 C102 106 136 144 158 178 C166 184 178 180 182 170 Z" fill="#9EC2EC"/>
-      <path d="M84 60 C116 92 142 128 160 162" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M100 74 C128 104 150 136 164 166" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M118 92 C142 118 158 144 168 168" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M236 208 C274 176 302 128 318 72 C322 58 336 60 332 76 C320 142 288 202 250 238 C240 246 230 224 236 208 Z" fill="#8FB8E8"/>
-      <path d="M246 224 C284 188 308 138 322 82" fill="none" stroke="#4478B8" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M98 190 C100 166 120 150 146 152 C182 156 214 176 240 204 C256 222 252 250 226 262 C194 276 150 268 124 242 C106 224 96 206 98 190 Z" fill="#E2D8C6"/>
-      <path d="M172 176 C208 182 236 200 250 224 C254 236 244 244 232 240 C210 232 186 210 170 188 C166 182 168 176 172 176 Z" fill="#6E9FD9"/>
-      <path d="M180 184 C210 192 232 208 244 228" fill="none" stroke="#4478B8" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M98 194 C112 188 134 184 158 180 C150 194 128 202 108 204 C102 202 98 198 98 194 Z" fill="#F5F0E3"/>
-      <path d="M96 190 C98 168 118 151 144 152 C160 153 172 159 181 169 C168 176 148 180 128 186 C116 189 104 191 96 190 Z" fill="#1F1F1D"/>
-      <path d="M97 184 L60 194 L98 201 C95 196 95 189 97 184 Z" fill="#262624"/>
-      <circle cx="136" cy="168" r="4.5" fill="#0C0C0B" stroke="#7A7A70" stroke-width="0.75"/>
-      <circle cx="137.5" cy="166.5" r="1.2" fill="#EFEAD9"/>
-      <path d="M206 264 L200 306" stroke="#2A2A27" stroke-width="4" stroke-linecap="round"/>
-      <path d="M226 262 L228 306" stroke="#2A2A27" stroke-width="4" stroke-linecap="round"/>
-      <path d="M200 306 L188 310 M200 306 L206 312 M228 306 L218 311 M236 311 L228 306" stroke="#2A2A27" stroke-width="3" stroke-linecap="round"/>
-      <path d="M150 312 L285 312" stroke="#CFC5AE" stroke-width="3" stroke-linecap="round"/>
+  <div class="mk-badge">
+    <svg class="mk-orbit" viewBox="0 0 600 600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <path id="mk-circle" d="M300,300 m-232,0 a232,232 0 1,1 464,0 a232,232 0 1,1 -464,0" />
+      </defs>
+      <circle cx="300" cy="300" r="196" fill="none" stroke="#3350E8" stroke-width="1.5" stroke-dasharray="2 7" opacity="0.55" />
+      <text font-family="Galmuri11, monospace" font-weight="700" font-size="30" fill="#3350E8" letter-spacing="2">
+        <textPath href="#mk-circle" textLength="1458" lengthAdjust="spacingAndGlyphs">{ringText}</textPath>
+      </text>
     </svg>
-    </div>
+<svg
+          class="mk-bird"
+          viewBox="40 30 300 300"
+          role="img"
+          aria-label="물까치 일러스트"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M182 170 C168 128 136 84 88 54 C74 46 60 52 68 64 C102 106 136 144 158 178 C166 184 178 180 182 170 Z" fill="#9EC2EC"/>
+          <path d="M84 60 C116 92 142 128 160 162" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M100 74 C128 104 150 136 164 166" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M118 92 C142 118 158 144 168 168" fill="none" stroke="#5C8FCF" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M236 208 C274 176 302 128 318 72 C322 58 336 60 332 76 C320 142 288 202 250 238 C240 246 230 224 236 208 Z" fill="#8FB8E8"/>
+          <path d="M246 224 C284 188 308 138 322 82" fill="none" stroke="#4478B8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M98 190 C100 166 120 150 146 152 C182 156 214 176 240 204 C256 222 252 250 226 262 C194 276 150 268 124 242 C106 224 96 206 98 190 Z" fill="#E2D8C6"/>
+          <path d="M172 176 C208 182 236 200 250 224 C254 236 244 244 232 240 C210 232 186 210 170 188 C166 182 168 176 172 176 Z" fill="#6E9FD9"/>
+          <path d="M180 184 C210 192 232 208 244 228" fill="none" stroke="#4478B8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M98 194 C112 188 134 184 158 180 C150 194 128 202 108 204 C102 202 98 198 98 194 Z" fill="#F5F0E3"/>
+          <path d="M96 190 C98 168 118 151 144 152 C160 153 172 159 181 169 C168 176 148 180 128 186 C116 189 104 191 96 190 Z" fill="#1F1F1D"/>
+          <path d="M97 184 L60 194 L98 201 C95 196 95 189 97 184 Z" fill="#262624"/>
+          <circle cx="136" cy="168" r="4.5" fill="#0C0C0B" stroke="#7A7A70" stroke-width="0.75"/>
+          <circle cx="137.5" cy="166.5" r="1.2" fill="#EFEAD9"/>
+          <path d="M206 264 L200 306" stroke="#2A2A27" stroke-width="4" stroke-linecap="round"/>
+          <path d="M226 262 L228 306" stroke="#2A2A27" stroke-width="4" stroke-linecap="round"/>
+          <path d="M200 306 L188 310 M200 306 L206 312 M228 306 L218 311 M236 311 L228 306" stroke="#2A2A27" stroke-width="3" stroke-linecap="round"/>
+          <path d="M150 312 L285 312" stroke="#CFC5AE" stroke-width="3" stroke-linecap="round"/>
+        </svg>
   </div>
 
   <div class="mk-mark">
@@ -59,58 +60,38 @@ const step = 360 / items.length;
     padding: 2rem 0 3rem;
     overflow: hidden;
   }
-  .mk-scene {
-    perspective: 1100px;
-    width: min(92vw, 760px);
-    height: clamp(340px, 55vh, 480px);
-  }
-  .mk-tilt {
+  .mk-badge {
     position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transform: rotateX(-12deg);
+    width: min(86vw, 560px);
+    aspect-ratio: 1;
   }
-  .mk-ring {
+  .mk-orbit {
     position: absolute;
     inset: 0;
-    transform-style: preserve-3d;
-    animation: mk-spin 28s linear infinite;
-  }
-  .mk-word {
-    --r: clamp(150px, 36vw, 300px);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotateY(var(--a)) translateZ(var(--r));
-    font-family: "Galmuri11", monospace;
-    color: #3350e8;
-    font-size: clamp(1.05rem, 2.4vw, 1.5rem);
-    letter-spacing: 0.06em;
-    white-space: pre;
-    user-select: none;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    animation: mk-spin 26s linear infinite;
   }
   .mk-bird {
     position: absolute;
     left: 50%;
     top: 50%;
-    height: clamp(210px, 40vh, 310px);
-    transform: translate(-50%, -54%) rotateX(12deg);
+    height: 54%;
+    transform: translate(-50%, -52%);
   }
   @keyframes mk-spin {
-    from { transform: rotateY(0deg); }
-    to   { transform: rotateY(360deg); }
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .mk-ring { animation: none; }
+    .mk-orbit { animation: none; }
   }
   .mk-mark {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    margin-top: 8px;
+    margin-top: 14px;
   }
   .mk-pill {
     background: #1a1a18;
