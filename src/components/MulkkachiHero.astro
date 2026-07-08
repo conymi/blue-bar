@@ -1,12 +1,20 @@
 ---
-// 물까치 홈 히어로: 중앙 일러스트 주위로 키워드 밴드가 회전
-// 밴드 단어는 아래 한 줄만 수정하면 됨. 마지막 "· " 포함 유지(이음새용).
-const words = "로컬 브랜딩 · 콘텐츠 · 기획 · 고유성 · 이야기 · ";
+// 물까치 홈 히어로: 중앙 일러스트 주위를 키워드 밴드가 3D 원통으로 회전
+// 밴드 단어는 아래 배열만 수정하면 됨.
+const words = ["로컬 브랜딩", "콘텐츠", "기획", "고유성", "이야기"];
+const items = words.flatMap((w) => [w, "·"]);
+const step = 360 / items.length;
 ---
 
 <section class="mk-hero">
-  <div class="mk-stage" id="mk-stage" data-words={words}>
-    <svg
+  <div class="mk-scene">
+    <div class="mk-tilt">
+      <div class="mk-ring">
+        {items.map((w, i) => (
+          <span class="mk-word" style={`--a:${(i * step).toFixed(1)}deg`}>{w}</span>
+        ))}
+      </div>
+      <svg
       class="mk-bird"
       viewBox="40 30 300 300"
       role="img"
@@ -32,6 +40,7 @@ const words = "로컬 브랜딩 · 콘텐츠 · 기획 · 고유성 · 이야기
       <path d="M200 306 L188 310 M200 306 L206 312 M228 306 L218 311 M236 311 L228 306" stroke="#2A2A27" stroke-width="3" stroke-linecap="round"/>
       <path d="M150 312 L285 312" stroke="#CFC5AE" stroke-width="3" stroke-linecap="round"/>
     </svg>
+    </div>
   </div>
 
   <div class="mk-mark">
@@ -50,28 +59,51 @@ const words = "로컬 브랜딩 · 콘텐츠 · 기획 · 고유성 · 이야기
     padding: 2rem 0 3rem;
     overflow: hidden;
   }
-  .mk-stage {
+  .mk-scene {
+    perspective: 1100px;
+    width: min(92vw, 760px);
+    height: clamp(340px, 55vh, 480px);
+  }
+  .mk-tilt {
     position: relative;
-    width: min(92vw, 720px);
-    height: clamp(320px, 55vh, 460px);
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(-12deg);
+  }
+  .mk-ring {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: mk-spin 28s linear infinite;
+  }
+  .mk-word {
+    --r: clamp(150px, 36vw, 300px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotateY(var(--a)) translateZ(var(--r));
+    font-family: "Galmuri11", monospace;
+    color: #3350e8;
+    font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+    letter-spacing: 0.06em;
+    white-space: pre;
+    user-select: none;
+    pointer-events: none;
   }
   .mk-bird {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -52%);
-    height: clamp(200px, 38vh, 300px);
-    z-index: 5;
+    height: clamp(210px, 40vh, 310px);
+    transform: translate(-50%, -54%) rotateX(12deg);
   }
-  .mk-word {
-    position: absolute;
-    font-family: "Galmuri11", "Galmuri9", monospace;
-    color: #3350e8;
-    font-weight: 400;
-    white-space: pre;
-    will-change: transform;
-    user-select: none;
-    pointer-events: none;
+  @keyframes mk-spin {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mk-ring { animation: none; }
   }
   .mk-mark {
     display: flex;
@@ -93,57 +125,3 @@ const words = "로컬 브랜딩 · 콘텐츠 · 기획 · 고유성 · 이야기
     padding: 4px 12px;
   }
 </style>
-
-<script>
-  const stage = document.getElementById("mk-stage");
-  if (stage) {
-    const chars = (stage.dataset.words || "").split("");
-    const N = chars.length;
-    const spans = chars.map((ch) => {
-      const s = document.createElement("span");
-      s.className = "mk-word";
-      s.textContent = ch;
-      stage.appendChild(s);
-      return s;
-    });
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let t = 0;
-    let last = null;
-
-    function layout(now) {
-      const w = stage.clientWidth;
-      const h = stage.clientHeight;
-      const cx = w / 2;
-      const bandY = h * 0.56;
-      const RX = Math.min(w / 2 - 12, 340);
-      for (let i = 0; i < N; i++) {
-        const a = t + (i / N) * Math.PI * 2;
-        const sin = Math.sin(a);
-        const cos = Math.cos(a);
-        const k = (cos + 1) / 2;
-        const s = spans[i];
-        s.style.fontSize = (14 + 12 * k).toFixed(1) + "px";
-        s.style.opacity = (0.28 + 0.72 * k).toFixed(2);
-        s.style.zIndex = cos > 0 ? 9 : 1;
-        s.style.transform =
-          "translate(-50%,-50%)" + (cos < 0 ? " scaleX(-1)" : "");
-        s.style.left = (cx + RX * sin).toFixed(1) + "px";
-        s.style.top = (bandY + 18 * cos).toFixed(1) + "px";
-      }
-    }
-
-    if (reduced) {
-      layout();
-    } else {
-      const frame = (ts) => {
-        if (last === null) last = ts;
-        t += (ts - last) * 0.00042;
-        last = ts;
-        layout();
-        requestAnimationFrame(frame);
-      };
-      requestAnimationFrame(frame);
-    }
-  }
-</script>
