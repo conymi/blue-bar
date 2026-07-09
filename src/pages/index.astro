@@ -16,7 +16,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 
-		<main>
+		<main class="home-page">
 			<section class="intro-section">
 				<div class="intro-copy">
 					<p class="eyebrow">ABOUT MULKKACHI</p>
@@ -49,7 +49,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 			</section>
 
 			<section class="symbol-section">
-				<MulkkachiHero />
+				<div class="hero-visual">
+					<MulkkachiHero />
+				</div>
 
 				<div class="symbol-copy">
 					<h2>고유한 것을 찾아<br />이야기로 만듭니다</h2>
@@ -116,8 +118,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 </html>
 
 <style>
-	main {
+	.home-page {
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0;
 		background: #fff;
+		overflow-x: hidden;
 	}
 
 	.intro-section,
@@ -129,9 +136,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 	.intro-section {
 		display: grid;
-		grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+		grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
 		gap: 5rem;
 		align-items: center;
+		width: 100%;
 		max-width: 1200px;
 		min-height: calc(100vh - 88px);
 		margin: 0 auto;
@@ -148,10 +156,11 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 	.intro-copy h1 {
 		margin: 0 0 2rem;
-		font-size: clamp(4rem, 8vw, 7rem);
-		line-height: 1.04;
+		font-size: clamp(3.6rem, 7vw, 6.5rem);
+		line-height: 1.05;
 		letter-spacing: -0.07em;
 		color: #111827;
+		word-break: keep-all;
 	}
 
 	.intro-copy p {
@@ -176,10 +185,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	}
 
 	.symbol-section {
+		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 5rem 2rem 9rem;
 		text-align: center;
+	}
+
+	.hero-visual {
+		max-width: 720px;
+		margin: 0 auto;
 	}
 
 	.symbol-copy {
@@ -205,6 +220,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	}
 
 	.goal-section {
+		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 8rem 2rem;
@@ -216,6 +232,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		line-height: 1.05;
 		letter-spacing: -0.06em;
 		color: #111827;
+		word-break: keep-all;
 	}
 
 	.goal-grid {
@@ -260,6 +277,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 1.5rem;
+		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 2rem 2rem 9rem;
