@@ -12,126 +12,330 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css" />
 	</head>
+
 	<body>
 		<Header />
-		<main>
-			<MulkkachiHero />
-			<h1>고유한 것을 찾아 이야기로 만듭니다</h1>
-			<p>바탕이 되는 정체성을 브랜드와 콘텐츠로 기획하는 물까치입니다.</p>
-		</main>
-		<section class="intro-section">
-			<div class="intro-copy">
-				<p class="eyebrow">ABOUT MULKKACHI</p>
-		
-				<h2>안녕하세요,<br />물까치입니다.</h2>
-		
-				<p>
-					까치는 알아도 물까치는 조금 낯설죠. 물까치는 하늘색 파스텔톤 깃털을 가진,
-					주변에서 쉽게 볼 수 있지만 이름은 잘 모르는 새입니다.
-				</p>
-		
-				<p>
-					눈에 익은 풍경 속에 있지만 제대로 들여다보지 않은 것. 물까치가 하는 일도
-					그와 닮아 있습니다.
-				</p>
-		
-				<p>
-					물까치는 장소든 브랜드든, 사람들이 지나친 고유한 결을 찾아내고 그것을
-					브랜드와 콘텐츠의 언어로 번역하는 작업을 합니다.
-				</p>
-		
-				<p>
-					가치를 새롭게 읽고, 이야기로 연결하는 것. 그것이 물까치의 관점입니다.
-				</p>
-			</div>
-		
-			<figure class="intro-image">
-				<img src="/images/home/Magpie.jpeg" alt="나뭇가지에 앉은 물까치" />
-			</figure>
-		</section>
 
+		<main>
+			<section class="intro-section home-first">
+				<div class="intro-copy">
+					<p class="eyebrow">ABOUT MULKKACHI</p>
+
+					<h1>안녕하세요,<br />물까치입니다.</h1>
+
+					<p>
+						까치는 알아도 물까치는 조금 낯설죠. 
+						물까치는 하늘색 파스텔톤 깃털을 가진,
+						주변에서 쉽게 볼 수 있지만 이름은 잘 모르는 새입니다.
+					</p>
+
+					<p>
+						눈에 익은 풍경 속에 있지만 제대로 들여다보지 않은 것. 
+						물까치가 하는 일도 그와 닮아 있습니다.
+					</p>
+
+					<p>
+						물까치는 장소든 브랜드든, 
+						사람들이 지나친 고유한 결을 찾아내고 
+						그것을 브랜드와 콘텐츠의 언어로 번역하는 작업을 합니다.
+					</p>
+
+					<p>
+						가치를 새롭게 읽고, 이야기로 연결하는 것. 
+						그것이 물까치의 관점입니다.
+					</p>
+				</div>
+
+				<figure class="intro-image">
+					<img src="/images/home/Magpie.jpeg" alt="나뭇가지에 앉은 물까치" />
+				</figure>
+			</section>
+
+			<section class="symbol-section">
+				<MulkkachiHero />
+
+				<div class="symbol-copy">
+					<h2>고유한 것을 찾아<br />이야기로 만듭니다</h2>
+					<p>
+						바탕이 되는 정체성을 브랜드와 콘텐츠로 기획하는 물까치입니다.
+					</p>
+				</div>
+			</section>
+
+			<section class="goal-section">
+				<p class="eyebrow">MULKKACHI GOALS</p>
+				<h2>물까치가 하는 일</h2>
+
+				<div class="goal-grid">
+					<div class="goal-card">
+						<span>01</span>
+						<h3>장소의 맥락을 관찰합니다</h3>
+						<p>
+							겉으로 드러난 풍경보다 그 안에 숨어 있는 맥락을 봅니다.
+						</p>
+					</div>
+
+					<div class="goal-card">
+						<span>02</span>
+						<h3>고유한 결을 발견합니다</h3>
+						<p>
+							사람들이 지나치기 쉬운 이름 없는 가치와 지역만의 고유성 차이를 찾아냅니다.
+						</p>
+					</div>
+
+					<div class="goal-card">
+						<span>03</span>
+						<h3>브랜드와 콘텐츠로 번역합니다</h3>
+						<p>
+							관찰한 맥락을 이야기, 기획, 콘텐츠, 프로젝트의 언어로 다시 정리합니다.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="link-section">
+				<a href="/portfolio" class="link-card">
+					<span>WORKS</span>
+					<h3>웍스</h3>
+					<p>물까치가 진행한 프로젝트와 작업 기록</p>
+				</a>
+
+				<a href="/blog" class="link-card">
+					<span>WEBZINE</span>
+					<h3>웹진</h3>
+					<p>세상 모든 관심사에 대한 이야기</p>
+				</a>
+
+				<a href="/city-question" class="link-card">
+					<span>CITY QUESTION</span>
+					<h3>도시질문</h3>
+					<p>도시와 장소를 둘러싼 질문의 기록</p>
+				</a>
+			</section>
+		</main>
 
 		<Footer />
 	</body>
 </html>
+
 <style>
-.intro-section {
-	display: grid;
-	grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-	gap: 5rem;
-	align-items: center;
-	max-width: 1120px;
-	margin: 8rem auto;
-	padding: 6rem 2rem;
-}
+	main {
+		background: #fff;
+	}
 
-.intro-copy .eyebrow {
-	margin: 0 0 1.5rem;
-	font-size: 0.9rem;
-	font-weight: 800;
-	letter-spacing: 0.14em;
-	color: #2f46ff;
-}
+	.home-first {
+		min-height: calc(100vh - 88px);
+	}
 
-.intro-copy h2 {
-	margin: 0 0 2rem;
-	font-size: clamp(3rem, 7vw, 6rem);
-	line-height: 1.05;
-	letter-spacing: -0.06em;
-	color: #111827;
-}
-
-.intro-copy p {
-	margin: 0 0 1.5rem;
-	font-size: 1.15rem;
-	line-height: 1.9;
-	color: #1f2937;
-	word-break: keep-all;
-}
-
-.intro-image {
-	margin: 0;
-}
-
-.intro-image img {
-	display: block;
-	width: 100%;
-	aspect-ratio: 4 / 5;
-	object-fit: cover;
-	border-radius: 32px;
-	box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
-}
-
-@media (max-width: 800px) {
 	.intro-section {
-		grid-template-columns: 1fr;
-		gap: 3rem;
-		margin: 5rem auto;
-		padding: 4rem 1.5rem;
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+		gap: 5rem;
+		align-items: center;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 7rem 2rem;
+	}
+
+	.eyebrow {
+		margin: 0 0 1.5rem;
+		font-size: 0.9rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		color: #2f46ff;
+	}
+
+	.intro-copy h1 {
+		margin: 0 0 2rem;
+		font-size: clamp(4rem, 8vw, 7rem);
+		line-height: 1.04;
+		letter-spacing: -0.07em;
+		color: #111827;
+	}
+
+	.intro-copy p {
+		margin: 0 0 1.5rem;
+		font-size: 1.15rem;
+		line-height: 1.9;
+		color: #1f2937;
+		word-break: keep-all;
 	}
 
 	.intro-image {
-		order: -1;
+		margin: 0;
 	}
 
-	.intro-copy h2 {
-		font-size: 3rem;
+	.intro-image img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 32px;
+		box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
 	}
-}
 
-
-	main {
-		width: auto;
-		max-width: 1400px;
-	}
-	h1 {
-		font-size: clamp(2rem, 6vw, 4rem);
-		line-height: 1.3;
-		word-break: keep-all;
+	.symbol-section {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 5rem 2rem 8rem;
 		text-align: center;
 	}
-	main > p {
-		text-align: center;
+
+	.symbol-copy {
+		margin-top: 4rem;
+	}
+
+	.symbol-copy h2 {
+		margin: 0 0 1.5rem;
+		font-size: clamp(3rem, 7vw, 6.5rem);
+		line-height: 1.08;
+		letter-spacing: -0.07em;
+		color: #111827;
+	}
+
+	.symbol-copy p {
+		margin: 0 auto;
+		max-width: 720px;
+		font-size: 1.25rem;
+		line-height: 1.8;
+		color: #1f2937;
 		word-break: keep-all;
+	}
+
+	.goal-section {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 8rem 2rem;
+	}
+
+	.goal-section h2 {
+		margin: 0 0 4rem;
+		font-size: clamp(3rem, 7vw, 6rem);
+		line-height: 1.05;
+		letter-spacing: -0.06em;
+		color: #111827;
+	}
+
+	.goal-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 2rem;
+	}
+
+	.goal-card {
+		padding: 3rem;
+		border-radius: 32px;
+		background: linear-gradient(180deg, #f6f8ff 0%, #eaf3ff 100%);
+	}
+
+	.goal-card span {
+		display: inline-block;
+		margin-bottom: 2rem;
+		font-size: 0.95rem;
+		font-weight: 800;
+		color: #2f46ff;
+	}
+
+	.goal-card h3 {
+		margin: 0 0 1.2rem;
+		font-size: 1.8rem;
+		line-height: 1.35;
+		letter-spacing: -0.04em;
+		color: #111827;
+		word-break: keep-all;
+	}
+
+	.goal-card p {
+		margin: 0;
+		font-size: 1.05rem;
+		line-height: 1.8;
+		color: #4b5563;
+		word-break: keep-all;
+	}
+
+	.link-section {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.5rem;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 2rem 2rem 9rem;
+	}
+
+	.link-card {
+		display: block;
+		padding: 2.5rem;
+		border: 1px solid #e5e7eb;
+		border-radius: 28px;
+		text-decoration: none;
+		color: inherit;
+		background: #fff;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.link-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+	}
+
+	.link-card span {
+		display: inline-block;
+		margin-bottom: 1.2rem;
+		font-size: 0.85rem;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		color: #2f46ff;
+	}
+
+	.link-card h3 {
+		margin: 0 0 1rem;
+		font-size: 2rem;
+		letter-spacing: -0.05em;
+	}
+
+	.link-card p {
+		margin: 0;
+		font-size: 1.05rem;
+		line-height: 1.7;
+		color: #4b5563;
+		word-break: keep-all;
+	}
+
+	@media (max-width: 900px) {
+		.intro-section {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+			padding: 4rem 1.5rem;
+		}
+
+		.home-first {
+			min-height: auto;
+		}
+
+		.intro-image {
+			order: -1;
+		}
+
+		.intro-copy h1 {
+			font-size: 3.2rem;
+		}
+
+		.goal-grid,
+		.link-section {
+			grid-template-columns: 1fr;
+		}
+
+		.goal-section,
+		.link-section {
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
+
+		.goal-card,
+		.link-card {
+			padding: 2rem;
+		}
 	}
 </style>
