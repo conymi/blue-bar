@@ -3,6 +3,7 @@ layout: ../../layouts/BlogPost.astro
 title: "도시에게 하고 싶은 질문들"
 description: "살고 싶은 도시와 여행하고 싶은 도시는 왜 다를까."
 pubDate: 2026-07-09
+heroImage: "/images/city-question/city.jpg"
 ---
 
 도시에게 묻고 싶은 질문들이 있다.
