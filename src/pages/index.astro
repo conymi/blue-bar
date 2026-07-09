@@ -17,32 +17,29 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<Header />
 
 		<main>
-			<section class="intro-section home-first">
+			<section class="intro-section">
 				<div class="intro-copy">
 					<p class="eyebrow">ABOUT MULKKACHI</p>
 
 					<h1>안녕하세요,<br />물까치입니다.</h1>
 
 					<p>
-						까치는 알아도 물까치는 조금 낯설죠. 
-						물까치는 하늘색 파스텔톤 깃털을 가진,
+						까치는 알아도 물까치는 조금 낯설죠. 물까치는 하늘색 파스텔톤 깃털을 가진,
 						주변에서 쉽게 볼 수 있지만 이름은 잘 모르는 새입니다.
 					</p>
 
 					<p>
-						눈에 익은 풍경 속에 있지만 제대로 들여다보지 않은 것. 
-						물까치가 하는 일도 그와 닮아 있습니다.
+						눈에 익은 풍경 속에 있지만 제대로 들여다보지 않은 것. 물까치가 하는 일도
+						그와 닮아 있습니다.
 					</p>
 
 					<p>
-						물까치는 장소든 브랜드든, 
-						사람들이 지나친 고유한 결을 찾아내고 
-						그것을 브랜드와 콘텐츠의 언어로 번역하는 작업을 합니다.
+						물까치는 장소든 브랜드든, 사람들이 지나친 고유한 결을 찾아내고 그것을
+						브랜드와 콘텐츠의 언어로 번역하는 작업을 합니다.
 					</p>
 
 					<p>
-						가치를 새롭게 읽고, 이야기로 연결하는 것. 
-						그것이 물까치의 관점입니다.
+						가치를 새롭게 읽고, 이야기로 연결하는 것. 그것이 물까치의 관점입니다.
 					</p>
 				</div>
 
@@ -67,47 +64,47 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				<h2>물까치가 하는 일</h2>
 
 				<div class="goal-grid">
-					<div class="goal-card">
-						<span>01</span>
+					<article class="goal-card">
+						<p class="number">01</p>
 						<h3>장소의 맥락을 관찰합니다</h3>
 						<p>
 							겉으로 드러난 풍경보다 그 안에 숨어 있는 맥락을 봅니다.
 						</p>
-					</div>
+					</article>
 
-					<div class="goal-card">
-						<span>02</span>
+					<article class="goal-card">
+						<p class="number">02</p>
 						<h3>고유한 결을 발견합니다</h3>
 						<p>
 							사람들이 지나치기 쉬운 이름 없는 가치와 지역만의 고유성 차이를 찾아냅니다.
 						</p>
-					</div>
+					</article>
 
-					<div class="goal-card">
-						<span>03</span>
+					<article class="goal-card">
+						<p class="number">03</p>
 						<h3>브랜드와 콘텐츠로 번역합니다</h3>
 						<p>
 							관찰한 맥락을 이야기, 기획, 콘텐츠, 프로젝트의 언어로 다시 정리합니다.
 						</p>
-					</div>
+					</article>
 				</div>
 			</section>
 
 			<section class="link-section">
 				<a href="/portfolio" class="link-card">
-					<span>WORKS</span>
+					<p class="link-label">WORKS</p>
 					<h3>웍스</h3>
 					<p>물까치가 진행한 프로젝트와 작업 기록</p>
 				</a>
 
 				<a href="/blog" class="link-card">
-					<span>WEBZINE</span>
+					<p class="link-label">WEBZINE</p>
 					<h3>웹진</h3>
 					<p>세상 모든 관심사에 대한 이야기</p>
 				</a>
 
 				<a href="/city-question" class="link-card">
-					<span>CITY QUESTION</span>
+					<p class="link-label">CITY QUESTION</p>
 					<h3>도시질문</h3>
 					<p>도시와 장소를 둘러싼 질문의 기록</p>
 				</a>
@@ -123,16 +120,20 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		background: #fff;
 	}
 
-	.home-first {
-		min-height: calc(100vh - 88px);
+	.intro-section,
+	.symbol-section,
+	.goal-section,
+	.link-section {
+		box-sizing: border-box;
 	}
 
 	.intro-section {
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+		grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
 		gap: 5rem;
 		align-items: center;
 		max-width: 1200px;
+		min-height: calc(100vh - 88px);
 		margin: 0 auto;
 		padding: 7rem 2rem;
 	}
@@ -177,7 +178,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	.symbol-section {
 		max-width: 1200px;
 		margin: 0 auto;
-		padding: 5rem 2rem 8rem;
+		padding: 5rem 2rem 9rem;
 		text-align: center;
 	}
 
@@ -191,6 +192,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		line-height: 1.08;
 		letter-spacing: -0.07em;
 		color: #111827;
+		word-break: keep-all;
 	}
 
 	.symbol-copy p {
@@ -223,24 +225,25 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	}
 
 	.goal-card {
+		min-height: 360px;
 		padding: 3rem;
-		border-radius: 32px;
-		background: linear-gradient(180deg, #f6f8ff 0%, #eaf3ff 100%);
+		border-radius: 36px;
+		background: linear-gradient(180deg, #f6f8ff 0%, #ddecff 100%);
+		box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
 	}
 
-	.goal-card span {
-		display: inline-block;
-		margin-bottom: 2rem;
-		font-size: 0.95rem;
+	.goal-card .number {
+		margin: 0 0 2.5rem;
+		font-size: 1.1rem;
 		font-weight: 800;
 		color: #2f46ff;
 	}
 
 	.goal-card h3 {
-		margin: 0 0 1.2rem;
-		font-size: 1.8rem;
-		line-height: 1.35;
-		letter-spacing: -0.04em;
+		margin: 0 0 1.5rem;
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+		line-height: 1.25;
+		letter-spacing: -0.06em;
 		color: #111827;
 		word-break: keep-all;
 	}
@@ -262,27 +265,31 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		padding: 2rem 2rem 9rem;
 	}
 
-	.link-card {
+	.link-card,
+	.link-card:visited {
 		display: block;
+		min-height: 240px;
 		padding: 2.5rem;
 		border: 1px solid #e5e7eb;
-		border-radius: 28px;
+		border-radius: 32px;
 		text-decoration: none;
 		color: inherit;
 		background: #fff;
+		box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
 		transition:
 			transform 0.2s ease,
-			box-shadow 0.2s ease;
+			box-shadow 0.2s ease,
+			background 0.2s ease;
 	}
 
 	.link-card:hover {
 		transform: translateY(-4px);
-		box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+		background: #f7f9ff;
+		box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
 	}
 
-	.link-card span {
-		display: inline-block;
-		margin-bottom: 1.2rem;
+	.link-label {
+		margin: 0 0 1.2rem;
 		font-size: 0.85rem;
 		font-weight: 800;
 		letter-spacing: 0.12em;
@@ -291,8 +298,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 	.link-card h3 {
 		margin: 0 0 1rem;
-		font-size: 2rem;
-		letter-spacing: -0.05em;
+		font-size: 2.6rem;
+		line-height: 1;
+		letter-spacing: -0.06em;
+		color: #111827;
 	}
 
 	.link-card p {
@@ -306,12 +315,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	@media (max-width: 900px) {
 		.intro-section {
 			grid-template-columns: 1fr;
+			min-height: auto;
 			gap: 3rem;
 			padding: 4rem 1.5rem;
-		}
-
-		.home-first {
-			min-height: auto;
 		}
 
 		.intro-image {
@@ -335,6 +341,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 		.goal-card,
 		.link-card {
+			min-height: auto;
 			padding: 2rem;
 		}
 	}
