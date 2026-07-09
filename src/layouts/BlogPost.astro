@@ -1,86 +1,179 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+const pageData = (Astro.props as any).frontmatter ?? Astro.props;
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage } = pageData;
+
+const publishDate = pubDate
+	? pubDate instanceof Date
+		? pubDate
+		: new Date(pubDate)
+	: undefined;
+
+const updateDate = updatedDate
+	? updatedDate instanceof Date
+		? updatedDate
+		: new Date(updatedDate)
+	: undefined;
 ---
 
-<html lang="en">
+<html lang="ko">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title ?? 'mulkkachi'} description={description ?? ''} />
 		<style>
 			main {
 				width: calc(100% - 2em);
 				max-width: 100%;
 				margin: 0;
 			}
+
 			.hero-image {
 				width: 100%;
+				margin-bottom: 3rem;
 			}
+
 			.hero-image img {
 				display: block;
+				width: 100%;
+				max-height: 560px;
+				object-fit: cover;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
+				border-radius: 0;
 			}
+
 			.prose {
-				width: 720px;
+				width: 760px;
 				max-width: calc(100% - 2em);
 				margin: auto;
-				padding: 1em;
+				padding: 4rem 1em 6rem;
 				color: rgb(var(--gray-dark));
+				font-size: 1.1rem;
+				line-height: 1.9;
+				word-break: keep-all;
 			}
+
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
+				margin-bottom: 3rem;
+				padding: 1em 0 2em;
 				text-align: center;
-				line-height: 1;
+				line-height: 1.2;
 			}
+
 			.title h1 {
 				margin: 0 0 0.5em 0;
+				font-size: clamp(2.4rem, 6vw, 5rem);
+				letter-spacing: -0.06em;
 			}
-			.date {
-				margin-bottom: 0.5em;
+
+			.description {
+				margin: 0 auto 1.5rem;
+				max-width: 680px;
 				color: rgb(var(--gray));
+				font-size: 1.15rem;
+				line-height: 1.7;
 			}
+
+			.date {
+				margin-bottom: 1.5em;
+				color: rgb(var(--gray));
+				font-size: 1rem;
+			}
+
 			.last-updated-on {
+				margin-top: 0.5rem;
 				font-style: italic;
+				font-size: 0.95rem;
+			}
+
+			hr {
+				border: none;
+				border-top: 1px solid rgb(var(--gray-light));
+				margin: 2rem 0 0;
+			}
+
+			.prose :global(h2) {
+				margin-top: 3rem;
+				margin-bottom: 1rem;
+				font-size: 1.8rem;
+				line-height: 1.4;
+				letter-spacing: -0.04em;
+			}
+
+			.prose :global(p) {
+				margin: 1.4rem 0;
+			}
+
+			.prose :global(img) {
+				display: block;
+				width: 100%;
+				margin: 3rem auto;
+				border-radius: 20px;
+			}
+
+			@media (max-width: 720px) {
+				.prose {
+					padding: 3rem 1em 5rem;
+					font-size: 1rem;
+				}
+
+				.title {
+					text-align: left;
+				}
+
+				.title h1 {
+					font-size: 2.4rem;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
 		<Header />
+
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
+				{
+					heroImage && (
+						<div class="hero-image">
+							<img src={heroImage} alt={title ?? ''} />
+						</div>
+					)
+				}
+
 				<div class="prose">
 					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
+						{
+							publishDate && (
+								<div class="date">
+									<FormattedDate date={publishDate} />
+
+									{
+										updateDate && (
+											<div class="last-updated-on">
+												Last updated on <FormattedDate date={updateDate} />
+											</div>
+										)
+									}
+								</div>
+							)
+						}
+
 						<h1>{title}</h1>
+
+						{description && <p class="description">{description}</p>}
+
 						<hr />
 					</div>
+
 					<slot />
 				</div>
 			</article>
 		</main>
+
 		<Footer />
 	</body>
 </html>
