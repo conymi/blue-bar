@@ -42,11 +42,107 @@ import Footer from '../../components/Footer.astro';
 			</section>
 		</main>
 
+		<section class="intro-section">
+			<div class="intro-copy">
+				<p class="eyebrow">ABOUT MULKKACHI</p>
+		
+				<h2>안녕하세요,<br />물까치입니다.</h2>
+		
+				<p>
+					까치는 알아도 물까치는 조금 낯설죠. 물까치는 하늘색 파스텔톤 깃털을 가진,
+					주변에서 쉽게 볼 수 있지만 이름은 잘 모르는 새입니다.
+				</p>
+		
+				<p>
+					눈에 익은 풍경 속에 있지만 제대로 들여다보지 않은 것. 물까치가 하는 일도
+					그와 닮아 있습니다.
+				</p>
+		
+				<p>
+					물까치는 장소든 브랜드든, 사람들이 지나친 고유한 결을 찾아내고 그것을
+					브랜드와 콘텐츠의 언어로 번역하는 작업을 합니다.
+				</p>
+		
+				<p>
+					가치를 새롭게 읽고, 이야기로 연결하는 것. 그것이 물까치의 관점입니다.
+				</p>
+			</div>
+		
+			<figure class="intro-image">
+				<img src="/images/home/magpie.jpg" alt="나뭇가지에 앉은 물까치" />
+			</figure>
+		</section>
+
+
 		<Footer />
 	</body>
 </html>
 
 <style>
+.intro-section {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+	gap: 5rem;
+	align-items: center;
+	max-width: 1120px;
+	margin: 8rem auto;
+	padding: 6rem 2rem;
+}
+
+.intro-copy .eyebrow {
+	margin: 0 0 1.5rem;
+	font-size: 0.9rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	color: #2f46ff;
+}
+
+.intro-copy h2 {
+	margin: 0 0 2rem;
+	font-size: clamp(3rem, 7vw, 6rem);
+	line-height: 1.05;
+	letter-spacing: -0.06em;
+	color: #111827;
+}
+
+.intro-copy p {
+	margin: 0 0 1.5rem;
+	font-size: 1.15rem;
+	line-height: 1.9;
+	color: #1f2937;
+	word-break: keep-all;
+}
+
+.intro-image {
+	margin: 0;
+}
+
+.intro-image img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	border-radius: 32px;
+	box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+}
+
+@media (max-width: 800px) {
+	.intro-section {
+		grid-template-columns: 1fr;
+		gap: 3rem;
+		margin: 5rem auto;
+		padding: 4rem 1.5rem;
+	}
+
+	.intro-image {
+		order: -1;
+	}
+
+	.intro-copy h2 {
+		font-size: 3rem;
+	}
+}
+
 	.webzine-page {
 		max-width: 1120px;
 		margin: 0 auto;
