@@ -1,0 +1,177 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works');
+  return works.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={`${d.title} — 물까치`} description={d.subtitle} />
+  </head>
+  <body>
+    <Header />
+    <main class="work" style={`--accent:${d.accent}; --ink:${d.ink};`}>
+      <a class="work__back" href="/works/">← 웍스</a>
+
+      <div class="work__grid">
+        <!-- 왼쪽: 표지. cover 있으면 이미지, 없으면 타이포로 생성 -->
+        <div class="work__cover">
+          {d.cover ? (
+            <img src={d.cover} alt={`${d.title} 표지`} />
+          ) : (
+            <div class="cover-gen">
+              <span class="cover-gen__role">{d.role}</span>
+              <span class="cover-gen__title">{d.title}</span>
+              <span class="cover-gen__mark">물까치</span>
+            </div>
+          )}
+        </div>
+
+        <!-- 오른쪽: 메타 + 본문 -->
+        <div class="work__body">
+          <h1>{d.title}</h1>
+          <p class="work__subtitle">{d.subtitle}</p>
+          <p class="work__role">{d.role}{d.partner ? ` · ${d.partner}` : ''} · {d.year}</p>
+
+          {d.links && d.links.length > 0 && (
+            <div class="work__links">
+              {d.links.map((l) => (
+                <a href={l.url} target="_blank" rel="noopener">{l.label}</a>
+              ))}
+            </div>
+          )}
+
+          <div class="work__prose">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .work {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vw, 3.5rem) 1.25rem 6rem;
+  }
+  .work__back {
+    display: inline-block;
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
+    text-decoration: none;
+    opacity: 0.7;
+    font-size: 0.95rem;
+  }
+  .work__back:hover { opacity: 1; }
+
+  .work__grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 340px) 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  /* 표지 */
+  .work__cover img {
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  }
+  .cover-gen {
+    aspect-ratio: 3 / 4;
+    background: var(--accent);
+    color: var(--ink);
+    border-radius: 4px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow:
+      0 -4px 0 rgba(0, 0, 0, 0.2) inset,
+      0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  }
+  .cover-gen__role { font-size: 0.85rem; opacity: 0.8; }
+  .cover-gen__title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    word-break: keep-all;
+  }
+  .cover-gen__mark { font-size: 0.85rem; opacity: 0.7; letter-spacing: 0.02em; }
+
+  /* 본문 */
+  .work__body h1 {
+    font-size: clamp(1.8rem, 4.5vw, 2.75rem);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    word-break: keep-all;
+    margin: 0 0 0.5rem;
+  }
+  .work__subtitle {
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+    opacity: 0.85;
+    font-style: italic;
+    margin: 0 0 1rem;
+    word-break: keep-all;
+  }
+  .work__role {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin: 0 0 1.5rem;
+    word-break: keep-all;
+  }
+  .work__links {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .work__links a {
+    padding: 0.5rem 1rem;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+  .work__links a:hover { opacity: 1; background: var(--accent); color: var(--ink); }
+
+  .work__prose {
+    line-height: 1.75;
+    font-size: 1.05rem;
+    word-break: keep-all;
+  }
+  .work__prose :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    margin: 0 0 1.5rem;
+    padding-left: 1.25rem;
+    font-size: 1.25rem;
+    font-style: italic;
+    opacity: 0.9;
+  }
+  .work__prose :global(h2) {
+    font-size: 1.3rem;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  @media (max-width: 720px) {
+    .work__grid { grid-template-columns: 1fr; }
+    .work__cover { max-width: 300px; }
+  }
+</style>

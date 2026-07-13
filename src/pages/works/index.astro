@@ -1,0 +1,159 @@
+---
+import { getCollection } from 'astro:content';
+// 아래 3개는 코니 프로젝트의 실제 경로/이름에 맞춰 확인 (블로그 스타터면 그대로 맞을 거야)
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const works = (await getCollection('works'))
+  .filter((w) => !w.data.draft)
+  .sort((a, b) => b.data.year - a.data.year);
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title="웍스 — 물까치" description="물까치가 해온 일들." />
+  </head>
+  <body>
+    <Header />
+    <main class="shelf">
+      <header class="shelf__intro">
+        <h1>웍스</h1>
+        <p>고유한 것을 찾아, 이야기로 만든 기록.</p>
+      </header>
+
+      <ul class="shelf__stack" role="list">
+        {works.map((w) => (
+          <li>
+            <a
+              class="spine"
+              href={`/works/${w.id}/`}
+              style={`--accent:${w.data.accent}; --ink:${w.data.ink};`}
+            >
+              <span class="spine__role">{w.data.role}</span>
+              <span class="spine__title">{w.data.title}</span>
+              <span class="spine__year">{w.data.year}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .shelf {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 5rem) 1.25rem 6rem;
+  }
+  .shelf__intro {
+    margin-bottom: clamp(2.5rem, 7vw, 5rem);
+  }
+  .shelf__intro h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    letter-spacing: -0.01em;
+    word-break: keep-all;
+    margin: 0 0 0.5rem;
+  }
+  .shelf__intro p {
+    opacity: 0.7;
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .shelf__stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.1rem, 3vw, 1.9rem);
+    perspective: 1400px; /* 스파인에 살짝 입체감 */
+  }
+
+  /* 부유하는 책등 하나 */
+  .spine {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    min-height: clamp(74px, 9vw, 104px);
+    padding: 0 clamp(1.5rem, 4vw, 2.75rem);
+    text-decoration: none;
+    color: var(--ink, #f4f1e6);
+    background: var(--accent, #4b47b3);
+    border-radius: 4px;
+    /* 종이 두께 + 바닥 그림자로 '떠 있는' 느낌 */
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.18) inset,
+      0 -3px 0 rgba(0, 0, 0, 0.22) inset,
+      0 18px 34px -18px rgba(0, 0, 0, 0.55);
+    transform: translateX(0) rotateY(0deg);
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 0.35s ease;
+    will-change: transform;
+  }
+  .spine:hover,
+  .spine:focus-visible {
+    transform: translateX(14px) rotateY(-2.5deg);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.22) inset,
+      0 -3px 0 rgba(0, 0, 0, 0.22) inset,
+      0 26px 44px -18px rgba(0, 0, 0, 0.6);
+    outline: none;
+  }
+  .spine:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .spine__role {
+    font-size: 0.9rem;
+    opacity: 0.82;
+    justify-self: start;
+    word-break: keep-all;
+  }
+  .spine__title {
+    font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    justify-self: center;
+    text-align: center;
+    word-break: keep-all;
+  }
+  .spine__year {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    justify-self: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 모바일: 3단 그리드는 좁으니 역할/연도를 접고 제목 중심으로 */
+  @media (max-width: 560px) {
+    .spine {
+      grid-template-columns: 1fr auto;
+      gap: 0.6rem;
+    }
+    .spine__role {
+      display: none;
+    }
+    .spine__title {
+      justify-self: start;
+      text-align: left;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spine {
+      transition: box-shadow 0.2s ease;
+    }
+    .spine:hover,
+    .spine:focus-visible {
+      transform: none;
+    }
+  }
+</style>
