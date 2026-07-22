@@ -1,13 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
-// 아래 3개는 코니 프로젝트의 실제 경로/이름에 맞춰 확인 (블로그 스타터면 그대로 맞을 거야)
+import { getCollection, render } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 
 const works = (await getCollection('works'))
   .filter((w) => !w.data.draft)
-  .sort((a, b) => b.data.year - a.data.year);
+  .sort((a, b) => a.data.order - b.data.order);
+
+const timelineEntries = await getCollection('timeline');
+const timelineEntry = timelineEntries[0];
+const { Content: Timeline } = await render(timelineEntry);
 ---
 
 <!doctype html>
@@ -31,14 +34,22 @@ const works = (await getCollection('works'))
               href={`/works/${w.id}/`}
               style={`--accent:${w.data.accent}; --ink:${w.data.ink};`}
             >
-              <span class="spine__role">{w.data.role}</span>
+              <span class="spine__role">{w.data.role.join(' / ')}</span>
               <span class="spine__title">{w.data.title}</span>
               <span class="spine__year">{w.data.year}</span>
             </a>
           </li>
         ))}
-      </ul>
-    </main>
+    </ul>
+
+    <section class="timeline">
+      <h2>{timelineEntry.data.title}</h2>
+      <p class="timeline__intro">{timelineEntry.data.description}</p>
+      <div class="timeline__body">
+        <Timeline />
+      </div>
+    </section>
+  </main> 
     <Footer />
   </body>
 </html>
@@ -156,4 +167,52 @@ const works = (await getCollection('works'))
       transform: none;
     }
   }
+ /* 하단 타임라인 */
+ .timeline {
+    margin-top: clamp(5rem, 12vw, 9rem);
+    padding-top: clamp(2.5rem, 6vw, 4rem);
+    border-top: 1px solid currentColor;
+    border-color: color-mix(in srgb, currentColor 15%, transparent);
+  }
+  .timeline h2 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+    word-break: keep-all;
+  }
+  .timeline__intro {
+    opacity: 0.65;
+    margin: 0 0 2.5rem;
+    word-break: keep-all;
+  }
+  .timeline__body :global(h2) {
+    font-size: 0.95rem;
+    opacity: 0.55;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    margin: 2.5rem 0 0.75rem;
+  }
+  .timeline__body :global(ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1rem;
+    border-left: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  }
+  .timeline__body :global(li) {
+    position: relative;
+    padding: 0.45rem 0 0.45rem 0.75rem;
+    word-break: keep-all;
+    line-height: 1.6;
+  }
+  .timeline__body :global(li)::before {
+    content: '';
+    position: absolute;
+    left: -1.2rem;
+    top: 1.05rem;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.4;
+  } 
 </style>

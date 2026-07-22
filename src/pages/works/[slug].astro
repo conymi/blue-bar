@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content } = await render(entry);  
 const d = entry.data;
 ---
 
@@ -34,7 +34,7 @@ const d = entry.data;
             <img src={d.cover} alt={`${d.title} 표지`} />
           ) : (
             <div class="cover-gen">
-              <span class="cover-gen__role">{d.role}</span>
+              <span class="cover-gen__role">{d.category}</span> 
               <span class="cover-gen__title">{d.title}</span>
               <span class="cover-gen__mark">물까치</span>
             </div>
@@ -45,8 +45,12 @@ const d = entry.data;
         <div class="work__body">
           <h1>{d.title}</h1>
           <p class="work__subtitle">{d.subtitle}</p>
-          <p class="work__role">{d.role}{d.partner ? ` · ${d.partner}` : ''} · {d.year}</p>
-
+          <p class="work__role">{d.role.join(' / ')}</p>
+          <p class="work__meta">
+            {d.year}
+            {d.period && ` · ${d.period}`}
+            {d.partner && ` · ${d.partner}`}
+          </p>
           {d.links && d.links.length > 0 && (
             <div class="work__links">
               {d.links.map((l) => (
@@ -54,7 +58,7 @@ const d = entry.data;
               ))}
             </div>
           )}
-
+<blockquote class="work__quote">{d.quote}</blockquote>
           <div class="work__prose">
             <Content />
           </div>
@@ -133,9 +137,26 @@ const d = entry.data;
   .work__role {
     font-size: 0.9rem;
     opacity: 0.6;
-    margin: 0 0 1.5rem;
+    margin: 0 0 0.35rem;
     word-break: keep-all;
   }
+  .work__meta {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin: 0 0 2rem;
+    word-break: keep-all;
+    font-variant-numeric: tabular-nums;
+  }
+  .work__quote {
+    border-left: 3px solid var(--accent);
+    margin: 0 0 2.5rem;
+    padding-left: 1.25rem;
+    font-size: clamp(1.15rem, 2.6vw, 1.4rem);
+    line-height: 1.6;
+    font-style: italic;
+    opacity: 0.9;
+    word-break: keep-all;
+  } 
   .work__links {
     display: flex;
     gap: 0.5rem;
