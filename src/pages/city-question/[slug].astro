@@ -1,0 +1,53 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { CONTACT_EMAIL } from '../../consts';
+
+export async function getStaticPaths() {
+	const items = await getCollection('cityQuestion');
+	return items.map(c => ({ params: { slug: c.id }, props: { item: c, items } }));
+}
+
+const { item, items } = Astro.props;
+const { Content } = await render(item);
+const relatedCities = items.filter(c => c.id !== item.id).slice(0, 2);
+---
+<!doctype html>
+<html lang="ko">
+<head><BaseHead title={`${item.data.title} | mulkkachi`} description={item.data.desc} image={item.data.heroImage} /></head>
+<body>
+	<Header />
+	<section class="container" style="max-width:760px">
+		<a href="/city-question" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 도시질문</a>
+		<div class="card-kicker" style="color:var(--color-scarlet);margin-bottom:var(--space-2)">{item.data.code} · {item.data.status}</div>
+		<h1 style="font-size:clamp(28px,3.6vw,44px);margin-bottom:var(--space-2)">{item.data.title}</h1>
+		<div class="card-meta" style="margin-bottom:var(--space-6)">{item.data.pubDate.toISOString().slice(0,10)}</div>
+		<div class="prose"><Content /></div>
+
+		{relatedCities.length > 0 && (
+			<div style="margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--color-divider)">
+				<div class="card-kicker" style="margin-bottom:var(--space-4)">다른 도시질문</div>
+				<div style="display:flex;flex-direction:column;gap:var(--space-2)">
+					{relatedCities.map(rc => (
+						<a href={`/city-question/${rc.id}`} class="card blueprint" style="text-decoration:none;color:inherit;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3)">
+							<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+							<div class="tag tag-outline">{rc.data.code}</div>
+							<div class="card-title" style="font-size:15px;flex:1">{rc.data.title}</div>
+						</a>
+					))}
+				</div>
+			</div>
+		)}
+
+		<div style="margin-top:var(--space-6);text-align:center">
+			<p style="font-size:15px;opacity:0.75;margin-bottom:var(--space-3)">이 질문과 연결된 프로젝트를 함께 고민하고 싶다면</p>
+			<a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-secondary blueprint" style="width:fit-content;display:inline-flex">
+				<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>물까치에 연락하기 →
+			</a>
+		</div>
+	</section>
+	<Footer />
+</body>
+</html>

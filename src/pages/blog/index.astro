@@ -2,199 +2,79 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
----
+import { getCollection } from 'astro:content';
 
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const firstPost = posts[0];
+const CATS = [
+	{ key: 'ALL', label: '전체', desc: '모든 글' },
+	{ key: 'LIFE', label: 'LIFE', desc: '몸과 생활, 살아가는 방식' },
+	{ key: 'INFRA', label: 'INFRA', desc: '도시와 경제, 생활을 움직이는 구조' },
+	{ key: 'DESIGN', label: 'DESIGN', desc: '제품과 브랜드, 경험을 만드는 설계' },
+];
+---
 <!doctype html>
 <html lang="ko">
-	<head>
-		<BaseHead
-			title="웹진 | FluffyOcto"
-			description="웹진 fluffyocto는  준비 중입니다."
-		/>
-	</head>
-
-	<body>
-		<Header />
-
-		<main class="webzine-page">
-			<section class="webzine-hero">
-				<p class="eyebrow">MULKKACHI WEBZINE</p>
-				<h1>웹진</h1>
-				<p class="intro">
-					세상 모든 관심사에 대한 이야기.
-				</p>
-			</section>
-
-			<section class="coming-soon">
-				<img
-					src="/images/webzine/octo.png"
-					alt="fluffy octo"
-					class="fluffy-image"
-				/>
-
-				<div class="message">
-					<p class="label">fluffy octo</p>
-					<h2>웹진은 준비 중입니다.</h2>
-					<p>
-						곧 찾아올께요!
-					</p>
+<head><BaseHead title="웹진 | fluffy kkachi" description="세상 모든 관심사에 대한 이야기" image={firstPost?.data.heroImage} /></head>
+<body>
+	<Header />
+	<section>
+		{firstPost && (
+			<a href={`/blog/${firstPost.id}`} style="display:block;position:relative;height:88vh;min-height:620px;overflow:hidden;margin-bottom:var(--space-8);text-decoration:none;color:inherit">
+				<img src={firstPost.data.heroImage} alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0" />
+				<div style="position:absolute;inset:0;background:linear-gradient(0deg, color-mix(in srgb, var(--color-prussian) 82%, transparent) 0%, transparent 45%, color-mix(in srgb, var(--color-prussian) 55%, transparent) 100%);z-index:1"></div>
+				<div style="position:absolute;top:0;left:0;right:0;z-index:2;padding:var(--space-6);max-width:1280px;margin:0 auto;box-sizing:border-box">
+					<div class="card-kicker" style="color:#fff;opacity:0.85;margin-bottom:var(--space-2)">WEBZINE</div>
+					<h1 style="font-size:clamp(36px,5vw,60px);font-weight:800;color:var(--color-text);margin:0">fluffy kkachi</h1>
 				</div>
-			</section>
-		</main>
+				<div style="position:absolute;left:0;right:0;bottom:0;z-index:2;padding:var(--space-8) var(--space-6);max-width:1280px;margin:0 auto;box-sizing:border-box">
+					<div class="card-kicker" style="color:#fff;opacity:0.85">{firstPost.data.tag} · {firstPost.data.pubDate.toISOString().slice(0,10)}</div>
+					<div class="card-title" style="font-size:clamp(30px,4.2vw,52px);color:#fff">{firstPost.data.title}</div>
+					<p class="card-body" style="color:rgba(255,255,255,0.85);font-size:17px;max-width:640px">{firstPost.data.dek}</p>
+				</div>
+			</a>
+		)}
 
-		
-		<Footer />
-	</body>
+		<div class="container" style="padding-top:0">
+			<div id="filters" style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:baseline;border-bottom:2px solid var(--color-twilight);padding-bottom:var(--space-4)">
+				{CATS.map(c => (
+					<button data-cat={c.key} class="tag cat-btn" style="cursor:pointer;border:none;font-weight:700;padding:8px 16px;font-size:14px;background:var(--color-neutral-200);color:var(--color-text)">{c.label}</button>
+				))}
+				<div id="cat-desc" style="font-size:13px;color:var(--color-emerald);padding-left:var(--space-2)">모든 글</div>
+			</div>
+
+			<div id="post-list" style="display:flex;flex-direction:column">
+				{posts.map(p => (
+					<a href={`/blog/${p.id}`} data-tag={p.data.tag} class="webzine-row" style="text-decoration:none;color:inherit;cursor:pointer;height:76px;box-sizing:border-box;overflow:hidden;padding:0 0 0 var(--space-3);border-bottom:1px solid var(--color-divider);border-left:3px solid transparent;display:flex;align-items:center;gap:var(--space-4)">
+						<div class="tag tag-outline" style="width:90px;flex-shrink:0;text-align:center;padding-inline:12px;box-sizing:border-box;font-family:var(--font-heading);font-weight:700">{p.data.tag}</div>
+						<div style="overflow:hidden;min-width:0;flex:1">
+							<div class="card-title" style="font-size:20px;line-height:1.3;margin:0 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{p.data.title}</div>
+							<div style="font-size:14px;line-height:1.3;opacity:0.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{p.data.dek}</div>
+						</div>
+						<div class="card-meta" style="width:100px;flex-shrink:0;text-align:right">{p.data.pubDate.toISOString().slice(0,10)}</div>
+					</a>
+				))}
+			</div>
+		</div>
+	</section>
+	<Footer />
+
+	<script>
+		const CATS: Record<string, string> = { ALL: '모든 글', LIFE: '몸과 생활, 살아가는 방식', INFRA: '도시와 경제, 생활을 움직이는 구조', DESIGN: '제품과 브랜드, 경험을 만드는 설계' };
+		const btns = document.querySelectorAll<HTMLButtonElement>('.cat-btn');
+		const rows = document.querySelectorAll<HTMLAnchorElement>('#post-list a');
+		const descEl = document.getElementById('cat-desc')!;
+		function select(cat: string) {
+			btns.forEach(b => {
+				const active = b.dataset.cat === cat;
+				b.style.background = active ? 'var(--color-twilight)' : 'var(--color-neutral-200)';
+				b.style.color = active ? '#fff' : 'var(--color-text)';
+			});
+			rows.forEach(r => { r.style.display = (cat === 'ALL' || r.dataset.tag === cat) ? 'flex' : 'none'; });
+			descEl.textContent = CATS[cat];
+		}
+		btns.forEach(b => b.addEventListener('click', () => select(b.dataset.cat!)));
+		select('ALL');
+	</script>
+</body>
 </html>
-
-<style>
-.intro-section {
-	display: grid;
-	grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-	gap: 5rem;
-	align-items: center;
-	max-width: 1120px;
-	margin: 8rem auto;
-	padding: 6rem 2rem;
-}
-
-.intro-copy .eyebrow {
-	margin: 0 0 1.5rem;
-	font-size: 0.9rem;
-	font-weight: 800;
-	letter-spacing: 0.14em;
-	color: #2f46ff;
-}
-
-.intro-copy h2 {
-	margin: 0 0 2rem;
-	font-size: clamp(3rem, 7vw, 6rem);
-	line-height: 1.05;
-	letter-spacing: -0.06em;
-	color: #111827;
-}
-
-.intro-copy p {
-	margin: 0 0 1.5rem;
-	font-size: 1.15rem;
-	line-height: 1.9;
-	color: #1f2937;
-	word-break: keep-all;
-}
-
-.intro-image {
-	margin: 0;
-}
-
-.intro-image img {
-	display: block;
-	width: 100%;
-	aspect-ratio: 4 / 5;
-	object-fit: cover;
-	border-radius: 32px;
-	box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
-}
-
-@media (max-width: 800px) {
-	.intro-section {
-		grid-template-columns: 1fr;
-		gap: 3rem;
-		margin: 5rem auto;
-		padding: 4rem 1.5rem;
-	}
-
-	.intro-image {
-		order: -1;
-	}
-
-	.intro-copy h2 {
-		font-size: 3rem;
-	}
-}
-
-	.webzine-page {
-		max-width: 1120px;
-		margin: 0 auto;
-		padding: 6rem 1.5rem 8rem;
-	}
-
-	.webzine-hero {
-		margin-bottom: 4rem;
-	}
-
-	.eyebrow {
-		margin: 0 0 1rem;
-		font-size: 0.9rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: #2f46ff;
-	}
-
-	h1 {
-		margin: 0 0 1.5rem;
-		font-size: clamp(4rem, 10vw, 8rem);
-		line-height: 1;
-		letter-spacing: -0.06em;
-	}
-
-	.intro {
-		max-width: 720px;
-		font-size: 1.25rem;
-		line-height: 1.8;
-		color: #343a46;
-		word-break: keep-all;
-	}
-
-	.coming-soon {
-		display: grid;
-		grid-template-columns: minmax(280px, 460px) 1fr;
-		gap: 4rem;
-		align-items: center;
-		padding: 4rem;
-		border-radius: 36px;
-		background: #f2f4ff;
-	}
-
-	.fluffy-image {
-		display: block;
-		width: 100%;
-		border-radius: 28px;
-		box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
-	}
-
-	.message .label {
-		margin: 0 0 1rem;
-		font-size: 0.95rem;
-		font-weight: 800;
-		letter-spacing: 0.1em;
-		color: #2f46ff;
-	}
-
-	.message h2 {
-		margin: 0 0 1.2rem;
-		font-size: clamp(2.2rem, 5vw, 4rem);
-		line-height: 1.15;
-		letter-spacing: -0.06em;
-		word-break: keep-all;
-	}
-
-	.message p {
-		font-size: 1.15rem;
-		line-height: 1.8;
-		color: #4b5563;
-		word-break: keep-all;
-	}
-
-	@media (max-width: 800px) {
-		.webzine-page {
-			padding: 4rem 1.2rem 6rem;
-		}
-
-		.coming-soon {
-			grid-template-columns: 1fr;
-			gap: 2rem;
-			padding: 2rem;
-			border-radius: 28px;
-		}
-	}
-</style>
