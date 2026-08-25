@@ -4,47 +4,45 @@ import { z } from 'astro/zod';
 
 const blog = defineCollection({
 	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			description: z.string(),
-			pubDate: z.coerce.date(),
-			updatedDate: z.coerce.date().optional(),
-			heroImage: z.optional(image()),
-		}),
+	schema: z.object({
+		title: z.string(),
+		dek: z.string(),
+		tag: z.enum(['LIFE', 'INFRA', 'DESIGN']),
+		subtag: z.string().optional(),
+		pubDate: z.coerce.date(),
+		heroImage: z.string(),
+		heroCredit: z.string().optional(),
+	}),
 });
 
 const works = defineCollection({
 	loader: glob({ base: './src/content/works', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
-		title: z.string(),                      // 프로젝트명
-		subtitle: z.string(),                   // 한 줄 컨셉
-		slug: z.string().optional(),            // 파일명이 id라 표시용
+		title: z.string(),
 		year: z.number(),
-		category: z.string(),                   // 예: 공간·콘텐츠 기획
-		role: z.array(z.string()),              // 배열로 변경
+		tag: z.string(),
+		category: z.string(),
 		period: z.string().optional(),
-		partner: z.string().optional(),         // 발주/실행 구조
-		summary: z.string(),
+		heroImage: z.string().optional(),
+		heroVideo: z.string().optional(),
+		closingImage: z.string().optional(),
 		quote: z.string(),
-		accent: z.string().default('#4b47b3'),  // 스파인 색
-		ink: z.string().default('#f4f1e6'),
-		cover: z.string().optional(),
-		links: z.array(z.object({
-			label: z.string(),
-			url: z.string(),
-		})).optional(),
-		order: z.number().default(99),          // 진열 순서
+		info: z.array(z.object({ label: z.string(), value: z.string() })),
+		order: z.number().default(99),
 		draft: z.boolean().default(false),
 	}),
 });
 
-const timeline = defineCollection({
-	loader: glob({ base: './src/content/timeline', pattern: '**/*.md' }),
+const cityQuestion = defineCollection({
+	loader: glob({ base: './src/content/city-question', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
+		code: z.string(),
+		status: z.string(),
 		title: z.string(),
-		description: z.string(),
+		desc: z.string(),
+		pubDate: z.coerce.date(),
+		heroImage: z.string(),
 	}),
 });
 
-export const collections = { blog, works, timeline };
+export const collections = { blog, works, cityQuestion };

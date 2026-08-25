@@ -1,0 +1,55 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map(p => ({ params: { slug: p.id }, props: { post: p, posts } }));
+}
+
+const { post, posts } = Astro.props;
+const { Content } = await render(post);
+const relatedPosts = posts.filter(p => p.id !== post.id).slice(0, 2);
+---
+<!doctype html>
+<html lang="ko">
+<head><BaseHead title={`${post.data.title} | fluffy kkachi`} description={post.data.dek} image={post.data.heroImage} /></head>
+<body>
+	<Header />
+	<section class="container" style="max-width:760px">
+		<a href="/blog" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 웹진</a>
+		<div style="margin-bottom:var(--space-6)">
+			<img src={post.data.heroImage} alt={post.data.title} style="width:100%;max-height:360px;object-fit:contain;background:var(--color-neutral-100)" />
+			{post.data.heroCredit && <p style="font-size:12px;opacity:0.55;margin-top:6px;text-align:right">{post.data.heroCredit}</p>}
+		</div>
+		<div class="card-kicker" style="margin-bottom:var(--space-2)">{post.data.tag} · {post.data.pubDate.toISOString().slice(0,10)}</div>
+		<h1 style="font-size:clamp(28px,3.6vw,44px);margin-bottom:var(--space-6)">{post.data.title}</h1>
+		<div class="prose"><Content /></div>
+
+		<div style="margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--color-divider);text-align:center">
+			<p style="font-size:15px;opacity:0.75;margin-bottom:var(--space-3)">이 글을 쓴 사람과 물까치에 대해</p>
+			<a href="/about" class="btn btn-secondary blueprint" style="width:fit-content;display:inline-flex">
+				<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>소개 보기 →
+			</a>
+		</div>
+
+		{relatedPosts.length > 0 && (
+			<div style="margin-top:var(--space-6)">
+				<div class="card-kicker" style="margin-bottom:var(--space-4)">다른 글</div>
+				<div style="display:flex;flex-direction:column;gap:var(--space-2)">
+					{relatedPosts.map(rp => (
+						<a href={`/blog/${rp.id}`} class="card blueprint" style="text-decoration:none;color:inherit;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3)">
+							<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+							<div class="tag tag-outline">{rp.data.tag}</div>
+							<div class="card-title" style="font-size:15px;flex:1">{rp.data.title}</div>
+						</a>
+					))}
+				</div>
+			</div>
+		)}
+	</section>
+	<Footer />
+</body>
+</html>

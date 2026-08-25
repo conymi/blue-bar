@@ -1,407 +1,108 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import MulkkachiHero from '../components/MulkkachiHero.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
----
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
+const works = (await getCollection('works')).filter(w => !w.data.draft).sort((a, b) => a.data.order - b.data.order);
+const featuredWork = works.find(w => w.id === 'yongmaru-forest-festival') ?? works[0];
+const secondaryWorks = works.filter(w => w.id !== featuredWork.id).slice(0, 2);
+
+const cityQuestions = (await getCollection('cityQuestion')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const firstCityQuestion = cityQuestions[0];
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const firstPost = posts[0];
+---
 <!doctype html>
 <html lang="ko">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css" />
-	</head>
+<head>
+	<BaseHead title={`${SITE_TITLE} | 콘텐츠 기획 스튜디오`} description={SITE_DESCRIPTION} />
+</head>
+<body>
+	<Header />
+	<section>
+		<a href="/about" style="position:relative;height:92vh;min-height:520px;display:flex;align-items:flex-end;text-decoration:none;color:inherit">
+			<img src="/images/home/hero.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0" />
+			<div style="position:absolute;inset:0;background:linear-gradient(0deg, color-mix(in srgb, var(--color-prussian) 82%, transparent) 0%, transparent 55%);z-index:1"></div>
+			<div style="position:relative;z-index:2;padding:var(--space-8) var(--space-6);max-width:1280px;margin:0 auto;width:100%;box-sizing:border-box">
+				<h1 style="font-size:clamp(30px,4.2vw,52px);color:#fff;margin-bottom:var(--space-4);line-height:1.3">익숙한 맥락 안에서,<br />새로운 흐름을 만듭니다.</h1>
+				<p style="font-size:18px;color:rgba(255,255,255,0.82);max-width:560px;margin:0;line-height:1.7">지역과 사람, 콘텐츠 경험을 기획하고 기록합니다.</p>
+			</div>
+		</a>
 
-	<body>
-		<Header />
-
-		<main class="home-page">
-			<section class="intro-section">
-				<div class="intro-copy">
-					<p class="eyebrow">ABOUT MULKKACHI</p>
-
-					<h1 class="mulkkachi-hand">
-						<span>안녕하세요,</span>
-						<span>물까치입니다.</span>
-					</h1>
-
-					<p>
-						까치는 알아도 물까치는 조금 낯설죠. 물까치는 하늘색 파스텔톤 깃털을 가진,
-						주변에서 쉽게 볼 수 있지만 이름은 잘 모르는 새입니다.
-					</p>
-
-					<p>
-						눈에 익은 풍경 속에 있지만 제대로 들여다보지 않은 것. 물까치가 하는 일도
-						그와 닮아 있습니다.
-					</p>
-
-					<p>
-						물까치는 장소든 브랜드든, 사람들이 지나친 고유한 결을 찾아내고 그것을
-						브랜드와 콘텐츠의 언어로 번역하는 작업을 합니다.
-					</p>
-
-					<p>
-						가치를 새롭게 읽고, 이야기로 연결하는 것. 그것이 물까치의 관점입니다.
-					</p>
-				</div>
-
-				<figure class="intro-image">
-					<img src="/images/home/Magpie.jpeg" alt="나뭇가지에 앉은 물까치" />
-				</figure>
-			</section>
-
-			<section class="symbol-section">
-				<div class="hero-visual">
-					<MulkkachiHero />
-				</div>
-
-				<div class="symbol-copy">
-					<h2>
-						<span>고유한 것을 찾아</span>
-						<span>이야기로 만듭니다</span>
-					</h2>
-					<p>
-						바탕이 되는 정체성을 브랜드와 콘텐츠로 기획하는 물까치입니다.
-					</p>
-				</div>
-			</section>
-
-			<section class="goal-section">
-				<p class="eyebrow">MULKKACHI GOALS</p>
-				<h2>물까치가 하는 일</h2>
-
-				<div class="goal-grid">
-					<article class="goal-card">
-						<p class="number">01</p>
-						<h3>장소의 맥락을 관찰합니다</h3>
-						<p>
-							겉으로 드러난 풍경보다 그 안에 숨어 있는 맥락을 봅니다.
-						</p>
-					</article>
-
-					<article class="goal-card">
-						<p class="number">02</p>
-						<h3>고유한 결을 발견합니다</h3>
-						<p>
-							사람들이 지나치기 쉬운 이름 없는 가치와 지역만의 고유성 차이를 찾아냅니다.
-						</p>
-					</article>
-
-					<article class="goal-card">
-						<p class="number">03</p>
-						<h3>브랜드와 콘텐츠로 번역합니다</h3>
-						<p>
-							관찰한 맥락을 이야기, 기획, 콘텐츠, 프로젝트의 언어로 다시 정리합니다.
-						</p>
-					</article>
-				</div>
-			</section>
-
-			<section class="link-section">
-				<a href="/portfolio" class="link-card">
-					<p class="link-label">WORKS</p>
-					<h3>웍스</h3>
-					<p>물까치가 진행한 프로젝트와 작업 기록</p>
+		<div class="container">
+			<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--space-6)">
+				<div class="card-kicker">SELECTED WORKS</div>
+				<a href="/works" class="btn btn-ghost" style="color:#010862">전체보기 →</a>
+			</div>
+			<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--space-4)">
+				<a href={`/works/${featuredWork.id}`} class="card blueprint" style="position:relative;text-decoration:none;color:inherit;padding:0;overflow:hidden;justify-content:flex-end;flex:1.4 1 320px;min-height:340px">
+					<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+					<img src="/images/home/featured-work.jpg" alt={featuredWork.data.title} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0" />
+					<div style="position:relative;z-index:1;background:linear-gradient(0deg, color-mix(in srgb, var(--color-prussian) 80%, transparent), transparent 60%);padding:var(--space-6);min-height:340px;display:flex;flex-direction:column;justify-content:flex-end">
+						<div class="card-kicker" style="color:#fff;opacity:0.8">{featuredWork.data.tag}</div>
+						<div class="card-title" style="font-size:clamp(22px,2.4vw,30px);color:#fff">{featuredWork.data.title}</div>
+					</div>
 				</a>
+				<div style="display:flex;flex-direction:column;gap:var(--space-3)">
+					{secondaryWorks.map(w => (
+						<a href={`/works/${w.id}`} class="card blueprint" style="text-decoration:none;color:inherit;padding:var(--space-4);flex:1;justify-content:space-between">
+							<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+							<div class="card-kicker">{w.data.tag}</div>
+							<div class="card-title" style="font-size:19px">{w.data.title}</div>
+						</a>
+					))}
+				</div>
+			</div>
+		</div>
 
-				<a href="/blog" class="link-card">
-					<p class="link-label">WEBZINE</p>
-					<h3>웹진</h3>
-					<p>세상 모든 관심사에 대한 이야기</p>
+		{firstCityQuestion && (
+			<div class="container" style="padding-top:0">
+				<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--space-4)">
+					<div class="card-kicker">CURRENT QUESTION</div>
+					<a href="/city-question" class="btn btn-ghost" style="color:#010862">도시질문 →</a>
+				</div>
+				<a href={`/city-question/${firstCityQuestion.id}`} class="card blueprint elev-sm" style="text-decoration:none;color:inherit;padding:0;overflow:hidden;flex-direction:row;flex-wrap:wrap">
+					<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+					<div style="flex:1 1 320px;min-height:260px">
+						<img src={firstCityQuestion.data.heroImage} alt="" style="width:100%;height:100%;object-fit:cover" />
+					</div>
+					<div style="flex:1 1 320px;padding:var(--space-6);display:flex;flex-direction:column;justify-content:center;gap:var(--space-2)">
+						<div class="card-kicker" style="color:#f43a11">도시질문 · {firstCityQuestion.data.code}</div>
+						<div class="card-title" style="font-size:clamp(22px,2.6vw,32px)">{firstCityQuestion.data.title}</div>
+						<p class="card-body">{firstCityQuestion.data.desc}</p>
+					</div>
 				</a>
+			</div>
+		)}
 
-				<a href="/city-question" class="link-card">
-					<p class="link-label">CITY QUESTION</p>
-					<h3>도시질문</h3>
-					<p>도시와 장소를 둘러싼 질문의 기록</p>
+		{firstPost && (
+			<div class="container" style="padding-top:0">
+				<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--space-4)">
+					<div class="card-kicker">RECENT WRITING · fluffy kkachi</div>
+					<a href="/blog" class="btn btn-ghost" style="color:#010862">웹진 →</a>
+				</div>
+				<a href={`/blog/${firstPost.id}`} class="card blueprint" style="text-decoration:none;color:inherit;padding:0;overflow:hidden;flex-direction:row;flex-wrap:wrap">
+					<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+					<div style="flex:1 1 320px;min-height:260px">
+						<img src={firstPost.data.heroImage} alt="" style="width:100%;height:100%;object-fit:cover" />
+					</div>
+					<div style="flex:1 1 320px;padding:var(--space-6);display:flex;flex-direction:column;justify-content:center;gap:var(--space-2)">
+						<div class="card-kicker" style="color:#f43a11">{firstPost.data.tag} · {firstPost.data.pubDate.toISOString().slice(0,10)}</div>
+						<div class="card-title" style="font-size:clamp(20px,2.2vw,26px)">{firstPost.data.title}</div>
+						<p class="card-body">{firstPost.data.dek}</p>
+					</div>
 				</a>
-			</section>
-		</main>
+			</div>
+		)}
 
-		<Footer />
-	</body>
+		<div class="container" style="padding-top:0;border-top:1px solid var(--color-divider);padding-top:var(--space-8)">
+			<div class="card-kicker" style="margin-bottom:var(--space-3)">ABOUT MULKKACHI</div>
+			<a href="/about" class="btn btn-ghost" style="padding-inline:0;color:#010862">소개 더 보기 →</a>
+		</div>
+	</section>
+	<Footer />
+</body>
 </html>
-
-<style>
-	:global(main.home-page) {
-		width: 100% !important;
-		max-width: none !important;
-		margin: 0 !important;
-		padding: 0 !important;
-	}
-
-	.home-page {
-		width: 100%;
-		max-width: none;
-		margin: 0;
-		padding: 0;
-		background: #fff;
-		overflow-x: hidden;
-	}
-
-	.intro-section,
-	.symbol-section,
-	.goal-section,
-	.link-section {
-		box-sizing: border-box;
-	}
-
-	.intro-section {
-		display: grid;
-		grid-template-columns: minmax(640px, 1.1fr) minmax(320px, 420px);
-		gap: 5rem;
-		align-items: center;
-		width: 100%;
-		max-width: 1280px;
-		min-height: calc(100vh - 88px);
-		margin: 0 auto;
-		padding: 7rem 2rem;
-	}
-
-	.eyebrow {
-		margin: 0 0 1.5rem;
-		font-size: 0.9rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		color: #2f46ff;
-	}
-
-	.intro-copy h1 {
-		margin: 0 0 2rem;
-		font-size: clamp(4.2rem, 6vw, 6rem);
-		line-height: 1.05;
-		letter-spacing: -0.07em;
-		color: #111827;
-	}
-
-	.intro-copy h1 span,
-	.symbol-copy h2 span {
-		display: block;
-		white-space: nowrap;
-	}
-
-	.intro-copy p {
-		max-width: 680px;
-		margin: 0 0 1.5rem;
-		font-size: 1.15rem;
-		line-height: 1.9;
-		color: #1f2937;
-		word-break: keep-all;
-	}
-
-	.intro-image {
-		margin: 0;
-	}
-
-	.intro-image img {
-		display: block;
-		width: 100%;
-		aspect-ratio: 4 / 5;
-		object-fit: cover;
-		border-radius: 32px;
-		box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
-	}
-
-	.symbol-section {
-		width: 100%;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 5rem 2rem 9rem;
-		text-align: center;
-	}
-
-	.hero-visual {
-		max-width: 720px;
-		margin: 0 auto;
-	}
-
-	.symbol-copy {
-		margin-top: 4rem;
-	}
-
-	.symbol-copy h2 {
-		margin: 0 0 1.5rem;
-		font-size: clamp(3rem, 6vw, 6rem);
-		line-height: 1.08;
-		letter-spacing: -0.07em;
-		color: #111827;
-		word-break: keep-all;
-	}
-
-	.symbol-copy p {
-		margin: 0 auto;
-		max-width: 720px;
-		font-size: 1.25rem;
-		line-height: 1.8;
-		color: #1f2937;
-		word-break: keep-all;
-	}
-
-	.goal-section {
-		width: 100%;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 8rem 2rem;
-	}
-
-	.goal-section h2 {
-		margin: 0 0 4rem;
-		font-size: clamp(3rem, 6vw, 5.8rem);
-		line-height: 1.05;
-		letter-spacing: -0.06em;
-		color: #111827;
-		word-break: keep-all;
-	}
-
-	.goal-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 2rem;
-	}
-
-	.goal-card {
-		min-height: 360px;
-		padding: 3rem;
-		border-radius: 36px;
-		background: linear-gradient(180deg, #f6f8ff 0%, #ddecff 100%);
-		box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
-	}
-
-	.goal-card .number {
-		margin: 0 0 2.5rem;
-		font-size: 1.1rem;
-		font-weight: 800;
-		color: #2f46ff;
-	}
-
-	.goal-card h3 {
-		margin: 0 0 1.5rem;
-		font-size: clamp(1.8rem, 2.7vw, 2.4rem);
-		line-height: 1.3;
-		letter-spacing: -0.05em;
-		color: #111827;
-		word-break: keep-all;
-	}
-
-	.goal-card p {
-		margin: 0;
-		font-size: 1.05rem;
-		line-height: 1.8;
-		color: #4b5563;
-		word-break: keep-all;
-	}
-
-	.link-section {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.5rem;
-		width: 100%;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 2rem 2rem 9rem;
-	}
-
-	.link-card,
-	.link-card:visited {
-		display: block;
-		min-height: 240px;
-		padding: 2.5rem;
-		border: 1px solid #e5e7eb;
-		border-radius: 32px;
-		text-decoration: none;
-		color: inherit;
-		background: #fff;
-		box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
-		transition:
-			transform 0.2s ease,
-			box-shadow 0.2s ease,
-			background 0.2s ease;
-	}
-
-	.link-card:hover {
-		transform: translateY(-4px);
-		background: #f7f9ff;
-		box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
-	}
-
-	.link-label {
-		margin: 0 0 1.2rem;
-		font-size: 0.85rem;
-		font-weight: 800;
-		letter-spacing: 0.12em;
-		color: #2f46ff;
-	}
-
-	.link-card h3 {
-		margin: 0 0 1rem;
-		font-size: 2.6rem;
-		line-height: 1;
-		letter-spacing: -0.06em;
-		color: #111827;
-	}
-
-	.link-card p {
-		margin: 0;
-		font-size: 1.05rem;
-		line-height: 1.7;
-		color: #4b5563;
-		word-break: keep-all;
-	}
-
-	@media (max-width: 1100px) {
-		.intro-section {
-			grid-template-columns: 1fr;
-			max-width: 760px;
-			min-height: auto;
-			gap: 3rem;
-			padding: 5rem 1.5rem;
-		}
-
-		.intro-image {
-			order: -1;
-		}
-
-		.intro-copy h1 {
-			font-size: clamp(3rem, 13vw, 5rem);
-		}
-
-		.intro-copy h1 span {
-			white-space: normal;
-		}
-	}
-
-	@media (max-width: 900px) {
-		.goal-grid,
-		.link-section {
-			grid-template-columns: 1fr;
-		}
-
-		.goal-section,
-		.link-section {
-			padding-left: 1.5rem;
-			padding-right: 1.5rem;
-		}
-
-		.goal-card,
-		.link-card {
-			min-height: auto;
-			padding: 2rem;
-		}
-	}
-	@font-face {
-		font-family: 'Mulkkachi Hand';
-		src: url('/fonts/MulkkachiHandTest-Regular.woff2') format('woff2');
-		font-weight: 400;
-		font-style: normal;
-		font-display: swap;
-	}
-
-	.mulkkachi-hand {
-		font-family: 'Mulkkachi Hand', 'Galmuri', sans-serif;
-		font-weight: 400;
-		font-synthesis: none;
-		line-height: 1.25;
-	}
-
-</style>

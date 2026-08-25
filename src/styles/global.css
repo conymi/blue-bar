@@ -1,141 +1,107 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+/* mulkkachi — Industry 시스템 토큰 + 컴포넌트. 이 파일이 유일한 스타일시트입니다. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
-}
-body {
-	font-family: 'Noto Sans KR', var(--font-atkinson), sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
-}
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
-}
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
-}
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
-}
-hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
+	--color-bg: #f2f2f3;
+	--color-surface: #e9e9ea;
+	--color-text: #1d1f20;
+	--color-accent: #5980a6;
+	--color-accent-2: #728fab;
+	--color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+
+	--color-neutral-100: #f5f5f8;
+	--color-neutral-200: #e7e7ea;
+	--color-neutral-700: #5d5d60;
+	--color-neutral-900: #2b2b2d;
+
+	--color-accent-100: #eef6ff;
+	--color-accent-600: #597ea3;
+	--color-accent-700: #416180;
+	--color-accent-900: #1d2d3d;
+
+	--color-scarlet: #F43A11;
+	--color-twilight: #010862;
+	--color-prussian: #060F38;
+	--color-emerald: #34D59A;
+
+	--font-heading: "Barlow Condensed", system-ui, sans-serif;
+	--font-heading-weight: 600;
+	--font-body: "Barlow", system-ui, sans-serif;
+
+	--space-1: 3.4px;
+	--space-2: 6.8px;
+	--space-3: 10.2px;
+	--space-4: 13.6px;
+	--space-6: 20.4px;
+	--space-8: 27.2px;
+	--space-9: 40px;
+
+	--radius-md: 4px;
+	--shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
 }
 
-.sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
+*, *::before, *::after { box-sizing: border-box; }
+body {
+	margin: 0; background: var(--color-bg); color: var(--color-text);
+	font-family: var(--font-body); font-size: 15px; line-height: 1.55;
 }
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+	line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-twilight); text-underline-offset: 3px; }
+a:hover { color: var(--color-emerald); }
+img, video { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+.blueprint { position: relative; border: 1px solid var(--color-divider); }
+.blueprint > .corner { position: absolute; width: 11px; height: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.blueprint > .corner::before, .blueprint > .corner::after { content: ""; position: absolute; background: currentColor; }
+.blueprint > .corner::before { left: 5px; top: 0; width: 1px; height: 100%; }
+.blueprint > .corner::after { top: 5px; left: 0; width: 100%; height: 1px; }
+.blueprint > .corner.tl { top: -6px; left: -6px; }
+.blueprint > .corner.tr { top: -6px; right: -6px; }
+.blueprint > .corner.bl { bottom: -6px; left: -6px; }
+.blueprint > .corner.br { bottom: -6px; right: -6px; }
+
+.btn {
+	display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+	cursor: pointer; text-decoration: none;
+	font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+	font-size: 14px; color: var(--color-text);
+	background: transparent; border: 1px solid var(--color-divider);
+	padding: var(--space-2) calc(var(--space-3) * 1.2);
+}
+.btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-ghost { border-color: transparent; color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+
+.card { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); background: transparent; border: 1px solid var(--color-divider); }
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; }
+.card-meta { font-size: 11px; color: color-mix(in srgb, var(--color-text) 50%, transparent); }
+.elev-sm { box-shadow: var(--shadow-sm); }
+
+.tag { display: inline-flex; align-items: center; font-size: 11px; letter-spacing: 0.02em; padding: 3px 10px; }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+.nav { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); flex-wrap: wrap; }
+.nav-brand { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; margin-right: auto; text-decoration: none; color: var(--color-text); }
+.nav a { color: var(--color-text); text-decoration: none; font-size: 15px; font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th { text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 60%, transparent); padding: var(--space-2); border-bottom: 1px solid var(--color-divider); }
+.table td { padding: var(--space-2); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); }
+
+.footer { border-top: 1px solid var(--color-divider); padding: var(--space-4) var(--space-6); display: flex; justify-content: space-between; align-items: center; font-size: 13px; opacity: 0.7; }
+.container { max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+.prose p { max-width: 640px; font-size: 16px; line-height: 1.85; margin-bottom: var(--space-4); }
+.prose h3 { font-size: 19px; margin: var(--space-6) 0 var(--space-2); }
+.prose img { width: 100%; margin: var(--space-4) 0; }
+.prose blockquote { border-left: 2px solid var(--color-scarlet); padding-left: var(--space-4); font-style: italic; margin: var(--space-6) 0; opacity: 0.85; }

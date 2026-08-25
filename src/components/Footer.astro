@@ -1,45 +1,8 @@
 ---
-const today = new Date();
+import { CONTACT_EMAIL } from '../consts';
+const year = new Date().getFullYear();
 ---
-
-<footer>
-	&copy; {today.getFullYear()} mulkkachi. All rights reserved.
-	<div class="social-links">
-		<a href="mailto:conipoky1347@gmail.com">
-			<span class="sr-only">이메일로 연락하기</span>
-			<svg
-				viewBox="0 0 16 16"
-				aria-hidden="true"
-				width="32"
-				height="32"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="1.2"
-			>
-				<rect x="1.5" y="3" width="13" height="10" rx="1.5"></rect>
-				<path d="M2 4l6 4.5L14 4"></path>
-			</svg>
-		</a>
-	</div>	
+<footer class="footer">
+	<div>© {year} mulkkachi</div>
+	<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
 </footer>
-<style>
-	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	.social-links {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: rgb(var(--gray));
-	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
-	}
-</style>
