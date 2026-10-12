@@ -11,9 +11,6 @@ const secondaryWorks = works.filter(w => w.id !== featuredWork.id).slice(0, 2);
 
 const cityQuestions = (await getCollection('cityQuestion')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const firstCityQuestion = cityQuestions[0];
-
-const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const firstPost = posts[0];
 ---
 <!doctype html>
 <html lang="ko">
@@ -73,26 +70,6 @@ const firstPost = posts[0];
 						<div class="card-kicker" style="color:#f43a11">도시질문 · {firstCityQuestion.data.code}</div>
 						<div class="card-title" style="font-size:clamp(22px,2.6vw,32px)">{firstCityQuestion.data.title}</div>
 						<p class="card-body">{firstCityQuestion.data.desc}</p>
-					</div>
-				</a>
-			</div>
-		)}
-
-		{firstPost && (
-			<div class="container" style="padding-top:0">
-				<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--space-4)">
-					<div class="card-kicker">RECENT WRITING · fluffy kkachi</div>
-					<a href="/blog" class="btn btn-ghost" style="color:#010862">웹진 →</a>
-				</div>
-				<a href={`/blog/${firstPost.id}`} class="card blueprint" style="text-decoration:none;color:inherit;padding:0;overflow:hidden;flex-direction:row;flex-wrap:wrap">
-					<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-					<div style="flex:1 1 320px;min-height:260px">
-						<img src={firstPost.data.heroImage} alt="" style="width:100%;height:100%;object-fit:cover" />
-					</div>
-					<div style="flex:1 1 320px;padding:var(--space-6);display:flex;flex-direction:column;justify-content:center;gap:var(--space-2)">
-						<div class="card-kicker" style="color:#f43a11">{firstPost.data.tag} · {firstPost.data.pubDate.toISOString().slice(0,10)}</div>
-						<div class="card-title" style="font-size:clamp(20px,2.2vw,26px)">{firstPost.data.title}</div>
-						<p class="card-body">{firstPost.data.dek}</p>
 					</div>
 				</a>
 			</div>
