@@ -3,6 +3,8 @@ code: "CQ.002"
 status: "연재 중"
 title: "빈틈은 기회다? 그건 바로 무덤이다"
 desc: "경쟁사가 없다는 건 흥분할 일이 아니라, 왜 없는지부터 물어야 할 신호였다."
+seoTitle: "시장 빈틈은 기회일까? 경쟁사 분석의 함정"
+seoDescription: "경쟁사가 없는 시장을 기회로만 해석했던 실패를 돌아보며, 시장의 빈틈과 경쟁사 분석에서 확인해야 할 신호를 기록합니다."
 pubDate: 2026-08-17
 heroImage: "/images/city-question/cq002/hero.png"
 ---
@@ -66,4 +68,4 @@ heroImage: "/images/city-question/cq002/hero.png"
 나는 그 질문을 건너뛰었다. 빈자리를 발견한 순간, 이미 그 자리에 앉기로 마음먹은 상태였으니까.
 
 > 도시질문은 도시 기획자가 직접 부딪힌 질문들을 기록하는 시리즈입니다.
-> 이전 편: [분석을 세 번 해도 결론이 같으면](/city-question/analysis-three-times)
+> 이전 편: [분석을 세 번 해도 결론이 같으면](/city-question/analysis-three-times/)

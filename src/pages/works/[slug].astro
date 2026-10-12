@@ -15,18 +15,42 @@ const { Content } = await render(work);
 const idx = works.findIndex(w => w.id === work.id);
 const prevWork = works[(idx - 1 + works.length) % works.length];
 const nextWork = works[(idx + 1) % works.length];
+const seoTitle = `${work.data.seoTitle ?? work.data.title} | mulkkachi`;
+const seoDescription = work.data.seoDescription ?? `${work.data.quote.replace(/[.!?]$/, '')}. ${work.data.category}을 담은 프로젝트 사례입니다.`;
+const structuredData = {
+	'@type': 'CreativeWork',
+	'@id': `${new URL(Astro.url.pathname, Astro.site).href}#creativework`,
+	name: work.data.title,
+	description: seoDescription,
+	url: new URL(Astro.url.pathname, Astro.site).href,
+	dateCreated: String(work.data.year),
+	creator: { '@id': `${new URL('/', Astro.site).href}#organization` },
+	...(work.data.heroImage || work.data.closingImage
+		? { image: new URL(work.data.heroImage ?? work.data.closingImage, Astro.site).href }
+		: {}),
+};
 ---
 <!doctype html>
 <html lang="ko">
-<head><BaseHead title={`${work.data.title} | mulkkachi`} description={work.data.quote} image={work.data.heroImage} /></head>
+<head><BaseHead
+	title={seoTitle}
+	description={seoDescription}
+	image={work.data.heroImage ?? work.data.closingImage}
+	breadcrumbs={[
+		{ name: '홈', path: '/' },
+		{ name: '웍스', path: '/works/' },
+		{ name: work.data.title, path: `/works/${work.id}/` },
+	]}
+	structuredData={structuredData}
+/></head>
 <body>
 	<Header />
 	<section class="container" style="max-width:1120px">
-		<a href="/works" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 웍스</a>
+		<a href="/works/" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 웍스</a>
 
 		<div style="margin-bottom:var(--space-6)">
 			{work.data.heroVideo
-				? <video src={work.data.heroVideo} controls playsinline style="width:100%;height:360px;object-fit:contain;background:#000"></video>
+				? <video src={work.data.heroVideo} controls playsinline preload="metadata" style="width:100%;height:360px;object-fit:contain;background:#000"></video>
 				: <img src={work.data.heroImage} alt={work.data.title} style="width:100%;height:360px;object-fit:cover" />}
 		</div>
 
@@ -54,19 +78,19 @@ const nextWork = works[(idx + 1) % works.length];
 
 		{work.data.closingImage && (
 			<div style="margin-top:var(--space-8)">
-				<img src={work.data.closingImage} alt="" style="width:100%;height:520px;object-fit:cover;object-position:top" />
+				<img src={work.data.closingImage} alt="" loading="lazy" decoding="async" style="width:100%;height:520px;object-fit:cover;object-position:top" />
 			</div>
 		)}
 
 		<div style="margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--color-divider);display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between;align-items:center">
-			<a href={`/works/${prevWork.id}`} class="btn btn-ghost" style="padding-inline:0">← 이전 프로젝트</a>
+			<a href={`/works/${prevWork.id}/`} class="btn btn-ghost" style="padding-inline:0">← 이전 프로젝트</a>
 			<div style="display:flex;flex-direction:column;align-items:center;gap:var(--space-2)">
 				<div style="font-size:13px;opacity:0.7">프로젝트를 준비하고 있나요?</div>
 				<a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-secondary blueprint">
 					<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>Contact
 				</a>
 			</div>
-			<a href={`/works/${nextWork.id}`} class="btn btn-ghost" style="padding-inline:0">다음 프로젝트 →</a>
+			<a href={`/works/${nextWork.id}/`} class="btn btn-ghost" style="padding-inline:0">다음 프로젝트 →</a>
 		</div>
 	</section>
 	<Footer />

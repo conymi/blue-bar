@@ -12,14 +12,39 @@ export async function getStaticPaths() {
 const { post, posts } = Astro.props;
 const { Content } = await render(post);
 const relatedPosts = posts.filter(p => p.id !== post.id).slice(0, 2);
+const seoTitle = `${post.data.seoTitle ?? post.data.title} | fluffy kkachi`;
+const seoDescription = post.data.seoDescription ?? post.data.dek;
+const structuredData = {
+	'@type': 'Article',
+	'@id': `${new URL(Astro.url.pathname, Astro.site).href}#article`,
+	headline: post.data.title,
+	description: seoDescription,
+	image: new URL(post.data.heroImage, Astro.site).href,
+	datePublished: post.data.pubDate.toISOString(),
+	mainEntityOfPage: { '@id': `${new URL(Astro.url.pathname, Astro.site).href}#webpage` },
+	author: { '@id': `${new URL('/', Astro.site).href}#organization` },
+	publisher: { '@id': `${new URL('/', Astro.site).href}#organization` },
+	inLanguage: 'ko-KR',
+};
 ---
 <!doctype html>
 <html lang="ko">
-<head><BaseHead title={`${post.data.title} | fluffy kkachi`} description={post.data.dek} image={post.data.heroImage} /></head>
+<head><BaseHead
+	title={seoTitle}
+	description={seoDescription}
+	image={post.data.heroImage}
+	type="article"
+	breadcrumbs={[
+		{ name: '홈', path: '/' },
+		{ name: '웹진', path: '/blog/' },
+		{ name: post.data.title, path: `/blog/${post.id}/` },
+	]}
+	structuredData={structuredData}
+/></head>
 <body>
 	<Header />
 	<section class="container" style="max-width:760px">
-		<a href="/blog" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 웹진</a>
+		<a href="/blog/" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 웹진</a>
 		<div style="margin-bottom:var(--space-6)">
 			<img src={post.data.heroImage} alt={post.data.title} style="width:100%;max-height:360px;object-fit:contain;background:var(--color-neutral-100)" />
 			{post.data.heroCredit && <p style="font-size:12px;opacity:0.55;margin-top:6px;text-align:right">{post.data.heroCredit}</p>}
@@ -30,7 +55,7 @@ const relatedPosts = posts.filter(p => p.id !== post.id).slice(0, 2);
 
 		<div style="margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--color-divider);text-align:center">
 			<p style="font-size:15px;opacity:0.75;margin-bottom:var(--space-3)">이 글을 쓴 사람과 물까치에 대해</p>
-			<a href="/about" class="btn btn-secondary blueprint" style="width:fit-content;display:inline-flex">
+			<a href="/about/" class="btn btn-secondary blueprint" style="width:fit-content;display:inline-flex">
 				<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>소개 보기 →
 			</a>
 		</div>
@@ -40,7 +65,7 @@ const relatedPosts = posts.filter(p => p.id !== post.id).slice(0, 2);
 				<div class="card-kicker" style="margin-bottom:var(--space-4)">다른 글</div>
 				<div style="display:flex;flex-direction:column;gap:var(--space-2)">
 					{relatedPosts.map(rp => (
-						<a href={`/blog/${rp.id}`} class="card blueprint" style="text-decoration:none;color:inherit;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3)">
+						<a href={`/blog/${rp.id}/`} class="card blueprint" style="text-decoration:none;color:inherit;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3)">
 							<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
 							<div class="tag tag-outline">{rp.data.tag}</div>
 							<div class="card-title" style="font-size:15px;flex:1">{rp.data.title}</div>

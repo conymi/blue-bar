@@ -7,6 +7,8 @@ period: "2022"
 heroVideo: "/images/works/nangok/hero.mp4"
 closingImage: "/images/works/nangok/closing.jpg"
 quote: "가게보다 먼저, 사람을 소개하다"
+seoTitle: "난곡사람, 난곡상인 | 지역 상인 인터뷰 콘텐츠"
+seoDescription: "난곡동 상인의 장사 철학과 동네 관계를 기록한 인터뷰 영상 시리즈. 콘텐츠 기획, 참여 상인 조율, 제작·홍보 과정을 소개합니다."
 order: 5
 info:
   - label: "형식"

@@ -12,6 +12,8 @@ const blog = defineCollection({
 		pubDate: z.coerce.date(),
 		heroImage: z.string(),
 		heroCredit: z.string().optional(),
+		seoTitle: z.string().optional(),
+		seoDescription: z.string().optional(),
 	}),
 });
 
@@ -30,6 +32,8 @@ const works = defineCollection({
 		info: z.array(z.object({ label: z.string(), value: z.string() })),
 		order: z.number().default(99),
 		draft: z.boolean().default(false),
+		seoTitle: z.string().optional(),
+		seoDescription: z.string().optional(),
 	}),
 });
 
@@ -42,6 +46,8 @@ const cityQuestion = defineCollection({
 		desc: z.string(),
 		pubDate: z.coerce.date(),
 		heroImage: z.string(),
+		seoTitle: z.string().optional(),
+		seoDescription: z.string().optional(),
 	}),
 });
 

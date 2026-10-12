@@ -1,8 +1,63 @@
 ---
 import '../styles/global.css';
-interface Props { title: string; description: string; image?: string; }
-const { title, description, image = '/images/home/hero.jpg' } = Astro.props;
+interface Breadcrumb { name: string; path: string; }
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+	type?: 'website' | 'article';
+	breadcrumbs?: Breadcrumb[];
+	structuredData?: Record<string, unknown> | Record<string, unknown>[];
+}
+const {
+	title,
+	description,
+	image = '/images/home/hero.jpg',
+	type = 'website',
+	breadcrumbs = [],
+	structuredData = [],
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteURL = new URL('/', Astro.site);
+const imageURL = new URL(image, Astro.site);
+const extraStructuredData = Array.isArray(structuredData) ? structuredData : [structuredData];
+const graph = [
+	{
+		'@type': 'Organization',
+		'@id': `${siteURL.href}#organization`,
+		name: 'mulkkachi',
+		url: siteURL.href,
+	},
+	{
+		'@type': 'WebSite',
+		'@id': `${siteURL.href}#website`,
+		name: 'mulkkachi',
+		url: siteURL.href,
+		publisher: { '@id': `${siteURL.href}#organization` },
+		inLanguage: 'ko-KR',
+	},
+	{
+		'@type': 'WebPage',
+		'@id': `${canonicalURL.href}#webpage`,
+		url: canonicalURL.href,
+		name: title,
+		description,
+		isPartOf: { '@id': `${siteURL.href}#website` },
+		inLanguage: 'ko-KR',
+	},
+	...(breadcrumbs.length > 1 ? [{
+		'@type': 'BreadcrumbList',
+		'@id': `${canonicalURL.href}#breadcrumb`,
+		itemListElement: breadcrumbs.map((item, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			name: item.name,
+			item: new URL(item.path, Astro.site).href,
+		})),
+	}] : []),
+	...extraStructuredData,
+];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,9 +66,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <link rel="canonical" href={canonicalURL} />
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.site)} />
+<meta property="og:image" content={imageURL} />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+<script type="application/ld+json" set:html={jsonLd}></script>

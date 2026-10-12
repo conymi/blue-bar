@@ -8,7 +8,11 @@ const cityQuestions = (await getCollection('cityQuestion')).sort((a, b) => b.dat
 ---
 <!doctype html>
 <html lang="ko">
-<head><BaseHead title="도시질문 | mulkkachi" description="지방 도시 선택을 둘러싼 질문과 실험의 기록" /></head>
+<head><BaseHead
+	title="도시 기획 질문과 시장 검증 기록 | mulkkachi"
+	description="서울 밖 도시의 삶과 서비스 기획, 시장 검증 과정에서 발견한 질문과 실패를 기록합니다."
+	breadcrumbs={[{ name: '홈', path: '/' }, { name: '도시질문', path: '/city-question/' }]}
+/></head>
 <body>
 	<Header />
 	<section class="container">
@@ -21,9 +25,9 @@ const cityQuestions = (await getCollection('cityQuestion')).sort((a, b) => b.dat
 				<div class="tag tag-outline" style="margin-bottom:var(--space-4)">도시질문</div>
 				<div style="display:flex;flex-direction:column;gap:var(--space-4)">
 					{cityQuestions.map(c => (
-						<a href={`/city-question/${c.id}`} class="card blueprint elev-sm" style="text-decoration:none;color:inherit;padding:0;overflow:hidden">
+						<a href={`/city-question/${c.id}/`} class="card blueprint elev-sm" style="text-decoration:none;color:inherit;padding:0;overflow:hidden">
 							<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-							<img src={c.data.heroImage} alt={c.data.title} style="width:100%;height:220px;object-fit:cover" />
+							<img src={c.data.heroImage} alt={c.data.title} loading="lazy" decoding="async" style="width:100%;height:220px;object-fit:cover" />
 							<div style="padding:var(--space-6)">
 								<div class="card-kicker" style="color:var(--color-scarlet)">{c.data.code} · {c.data.status}</div>
 								<div class="card-title" style="font-size:22px">{c.data.title}</div>
@@ -37,9 +41,9 @@ const cityQuestions = (await getCollection('cityQuestion')).sort((a, b) => b.dat
 
 			<div style="position:sticky;top:var(--space-6)">
 				<div class="tag tag-outline" style="margin-bottom:var(--space-4)">까치 서울</div>
-				<a href="/city-question/kkachi-seoul" class="card blueprint" style="position:relative;padding:0;overflow:hidden;min-height:420px;display:flex;flex-direction:column;justify-content:flex-end;text-decoration:none;color:inherit">
+				<a href="/city-question/kkachi-seoul/" class="card blueprint" style="position:relative;padding:0;overflow:hidden;min-height:420px;display:flex;flex-direction:column;justify-content:flex-end;text-decoration:none;color:inherit">
 					<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-					<img src="/images/city-question/kkachi-seoul.jpg" alt="까치 서울" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0" />
+					<img src="/images/city-question/kkachi-seoul.jpg" alt="까치 서울" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0" />
 					<div style="position:relative;z-index:1;background:linear-gradient(0deg, color-mix(in srgb, var(--color-prussian) 85%, transparent), transparent 60%);padding:var(--space-6)">
 						<div class="card-kicker" style="color:#fff;opacity:0.85">PJ.001 · 구상 중</div>
 						<div class="card-title" style="font-size:24px;color:#fff">까치 서울 (가칭)</div>

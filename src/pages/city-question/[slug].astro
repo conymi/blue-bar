@@ -13,14 +13,39 @@ export async function getStaticPaths() {
 const { item, items } = Astro.props;
 const { Content } = await render(item);
 const relatedCities = items.filter(c => c.id !== item.id).slice(0, 2);
+const seoTitle = `${item.data.seoTitle ?? item.data.title} | mulkkachi`;
+const seoDescription = item.data.seoDescription ?? item.data.desc;
+const structuredData = {
+	'@type': 'Article',
+	'@id': `${new URL(Astro.url.pathname, Astro.site).href}#article`,
+	headline: item.data.title,
+	description: seoDescription,
+	image: new URL(item.data.heroImage, Astro.site).href,
+	datePublished: item.data.pubDate.toISOString(),
+	mainEntityOfPage: { '@id': `${new URL(Astro.url.pathname, Astro.site).href}#webpage` },
+	author: { '@id': `${new URL('/', Astro.site).href}#organization` },
+	publisher: { '@id': `${new URL('/', Astro.site).href}#organization` },
+	inLanguage: 'ko-KR',
+};
 ---
 <!doctype html>
 <html lang="ko">
-<head><BaseHead title={`${item.data.title} | mulkkachi`} description={item.data.desc} image={item.data.heroImage} /></head>
+<head><BaseHead
+	title={seoTitle}
+	description={seoDescription}
+	image={item.data.heroImage}
+	type="article"
+	breadcrumbs={[
+		{ name: '홈', path: '/' },
+		{ name: '도시질문', path: '/city-question/' },
+		{ name: item.data.title, path: `/city-question/${item.id}/` },
+	]}
+	structuredData={structuredData}
+/></head>
 <body>
 	<Header />
 	<section class="container" style="max-width:760px">
-		<a href="/city-question" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 도시질문</a>
+		<a href="/city-question/" class="btn btn-ghost" style="padding-inline:0;margin-bottom:var(--space-6);display:inline-block">← 도시질문</a>
 		<div class="card-kicker" style="color:var(--color-scarlet);margin-bottom:var(--space-2)">{item.data.code} · {item.data.status}</div>
 		<h1 style="font-size:clamp(28px,3.6vw,44px);margin-bottom:var(--space-2)">{item.data.title}</h1>
 		<div class="card-meta" style="margin-bottom:var(--space-6)">{item.data.pubDate.toISOString().slice(0,10)}</div>
@@ -31,7 +56,7 @@ const relatedCities = items.filter(c => c.id !== item.id).slice(0, 2);
 				<div class="card-kicker" style="margin-bottom:var(--space-4)">다른 도시질문</div>
 				<div style="display:flex;flex-direction:column;gap:var(--space-2)">
 					{relatedCities.map(rc => (
-						<a href={`/city-question/${rc.id}`} class="card blueprint" style="text-decoration:none;color:inherit;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3)">
+						<a href={`/city-question/${rc.id}/`} class="card blueprint" style="text-decoration:none;color:inherit;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3)">
 							<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
 							<div class="tag tag-outline">{rc.data.code}</div>
 							<div class="card-title" style="font-size:15px;flex:1">{rc.data.title}</div>
