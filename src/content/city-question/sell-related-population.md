@@ -3,7 +3,7 @@ code: "CQ.003"
 status: "연재 중"
 title: "대중에게 '관계인구'를 팔 수 있나"
 desc: "행정은 관계를 세어야 할지 모른다. 하지만 관계를 만드는 것은 결국 사람이다."
-pubDate: 2026-08-24
+pubDate: 2026-10-21
 heroImage: "/images/city-question/cq003/cq003-related-population-thumbnail.jpg"
 ---
 

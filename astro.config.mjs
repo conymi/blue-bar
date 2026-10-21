@@ -6,5 +6,5 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://mulkkachi.com/',
-	integrations: [mdx(), sitemap()],
+	integrations: [mdx(), sitemap({ filter: (page) => !page.includes('/blog') })],
 });
