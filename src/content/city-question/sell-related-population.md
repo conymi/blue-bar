@@ -9,8 +9,37 @@ heroImage: "/images/city-question/cq003/cq003-related-population-thumbnail.jpg"
 
 구독도시 사업계획서에는 고객이 둘 있었다. 지자체와 구독자. 그런데 한 사람을 두 개의 이름으로 불렀다. 지자체에 내는 문서에서 그는 '관계인구'였고, 랜딩페이지에서는 '또 다른 일상을 경험하고 싶은 사람'이었다.
 
-![구독도시 랜딩페이지. "도시를 구독한다는 것, 또 다른 일상을 경험하는 일"](/images/city-question/cq003/cq003-gudokdosi-landing.png)
-*구독도시 랜딩페이지*
+<style>
+	.cq003-landing-figure {
+		width: min(50%, 320px);
+		margin: var(--space-4) auto;
+		text-align: center;
+	}
+
+	.cq003-landing-figure img {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin: 0;
+	}
+
+	.cq003-landing-figure figcaption {
+		margin-top: var(--space-2);
+		font-size: 16px;
+		line-height: 1.85;
+	}
+
+	@media (max-width: 640px) {
+		.cq003-landing-figure {
+			width: 100%;
+		}
+	}
+</style>
+
+<figure class="cq003-landing-figure">
+	<img src="/images/city-question/cq003/cq003-gudokdosi-landing.png" alt='구독도시 랜딩페이지. "도시를 구독한다는 것, 또 다른 일상을 경험하는 일"' />
+	<figcaption><em>구독도시 랜딩페이지 · <a href="https://conymi-gudokdosi.vercel.app/" target="_blank" rel="noopener noreferrer">실제 페이지 보기 ↗</a></em></figcaption>
+</figure>
 
 처음엔 번역의 문제라고 생각했다. 같은 것을 듣는 사람에 맞춰 다르게 말하는 것뿐이라고.
 
